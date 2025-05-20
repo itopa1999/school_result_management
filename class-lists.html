@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+  .card {
+    border: none;
+    border-radius: 10px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+
+  #studentsTable {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+
+  #studentsTable thead {
+    background-color: #f8f9fa;
+  }
+
+  #studentsTable th,
+  #studentsTable td {
+    padding: 12px 15px;
+    text-align: left;
+  }
+
+  #studentsTable tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+
+  #studentsTable tbody tr:hover {
+    background-color: #e9ecef;
+  }
+
+  .edit-btn,
+  .delete-btn {
+    margin-right: 5px;
+  }
+
+  .modal-title {
+    font-weight: 600;
+  }
+</style>
+
+</head>
+<body>
+    <!-- Mobile Menu Button -->
+    <button class="btn btn-dark mobile-menu-btn">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Overlay for Mobile -->
+    <div class="overlay"></div>
+
+    <!-- Sidebar -->
+    <div class="sidebar p-3">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h4><i class="fas fa-user-shield me-2"></i>Admin Panel</h4>
+                <div class="school-name" id="schoolNameDisplay">loading....</div>
+            </div>
+            <button id="themeToggle" class="btn btn-sm theme-toggle btn-outline-light">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+        
+        <!-- Greeting Message -->
+        <div class="greeting mb-4 text-center">
+            <h5 id="timeGreeting"></h5>
+            <small class="text-mute" id="currentDate"></small>
+        </div>
+
+        <nav class="nav flex-column" id="navContainer">
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content content-wrap">
+        <button class="btn btn-primary btn-lg fw-bold m-3" data-bs-toggle="modal" data-bs-target="#uploadStudentModal">
+            <i class="fas fa-plus-circle me-2"></i> Add Students
+        </button>
+        <div class="container-fluid">
+            <div id="levelsContainer" class="d-flex flex-wrap justify-content-center">
+                <!-- Level cards will be injected here -->
+            </div>
+        </div>
+    </div>
+    <!-- Sticky Footer -->
+    <footer class="sticky-footer p-3 text-center mt-auto">
+        <div class="container">
+            <span>&copy; 2023 School Management System | All rights reserved</span>
+        </div>
+    </footer>
+
+    <!-- Students Modal -->
+    <div class="modal fade" id="studentsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Students</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+            <table id="studentsTable" class="table">
+            <thead>
+                <tr>
+                <th>Name</th>
+                <th>Other info</th>
+                <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+            </table>
+        </div>
+        </div>
+    </div>
+    </div>
+
+
+    <!-- <div class="modal fade" id="studentsModal" tabindex="-1" aria-hidden="true">
+  <div class="d-flex justify-content-between mb-2">
+    <input type="text" id="searchInput" class="form-control w-50" placeholder="Search students...">
+    <button class="btn btn-success ms-2" onclick="exportToCSV()">Export CSV</button>
+  </div>
+  <table id="studentsTable" class="table table-bordered">
+    <thead>
+      <tr>
+        <th style="cursor: pointer;" onclick="toggleSort()">Name <span id="sortIcon">⬍</span></th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+  <div class="d-flex justify-content-center mt-3">
+    <button class="btn btn-outline-primary me-2" onclick="changePage(-1)">Previous</button>
+    <span id="paginationInfo" class="align-self-center"></span>
+    <button class="btn btn-outline-primary ms-2" onclick="changePage(1)">Next</button>
+  </div>
+</div> -->
+
+
+    <!-- Edit Student Modal -->
+    <div class="modal fade" id="editStudentModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <form id="editStudentForm" class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Edit Student</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+            <input type="hidden" id="editStudentId">
+            <div class="mb-3">
+            <label for="editStudentName" class="form-label">Name</label>
+            <input type="text" class="form-control" id="editStudentName" required>
+            <div class="invalid-feedback">Name cannot be empty</div>
+            </div>
+
+            <div class="mb-3">
+            <label for="editStudentOtherInfo" class="form-label">Other Info</label>
+            <input type="text" class="form-control" id="editStudentOtherInfo" required>
+            <div class="invalid-feedback">Other Info cannot be empty</div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+        </div>
+        </form>
+    </div>
+    </div>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="uploadStudentModal" tabindex="-1" aria-labelledby="uploadStudentModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form method="POST" enctype="multipart/form-data">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="uploadStudentModalLabel">Upload Students</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+            <p>Please upload students via Excel file. If you don't have the template, click below to download:</p>
+            <a id="download-template" class="btn btn-outline-secondary mb-3" download>
+                <i class="fas fa-download me-1"></i> Download Template
+            </a>
+
+            <div class="mb-3">
+                <label for="classLevel" class="form-label">Select Class Level</label>
+                <select name="classLevel" id="classLevel" class="form-select" required>
+                <option value="" selected disabled>Select a class</option>
+                    <option value="1"></option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="excelFile" class="form-label">Upload Excel File</label>
+                <input class="form-control" type="file" name="file" id="excelFile" accept=".xlsx" required>
+            </div>
+            </div>
+
+            <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Upload</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+        </form>
+    </div>
+    </div>
+
+
+    <div class="modal fade" id="StudentResultPreviewModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h5 class="modal-title">Student name</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                
+            </div>
+    </div>
+    </div>
+
+
+    <div class="custom-alert" id="customAlert">
+        <div class="alert-progress" id="alertProgress"></div>
+        <span class="alert-content" id="alertContent"></span>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/class-lists.js"></script>
+    <script>
+        
+    </script>
+</body>
+</html>

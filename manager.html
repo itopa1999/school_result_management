@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/ride-card.css">
+    <style>
+        @media (max-width: 576px) {
+            .input-container {
+                margin-bottom: 15px; /* Adds space between input fields */
+            }
+        
+            .form-check {
+                margin-bottom: 10px; /* Adds space between radio buttons */
+            }
+        
+            .search-options {
+                margin-top: 20px;
+            }
+        
+            .search-button-main {
+                width: 100%; /* Ensures button stretches across the screen */
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header py-3">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <h1 class="mb-0"><a href="#" class="header-title">🎖️ TravelHub</a></h1>
+                <div class="d-flex align-items-center gap-3 position-relative">
+                    <span class="d-none d-md-block text-mute" id="first_name"></span>
+                    <div class="" type="button" id="userMenu">
+                        <img id="profilePic" class="avatar" style="cursor: pointer;">
+                    </div>
+                    
+                    <!-- Dropdown Menu -->
+                    <div class="custom-dropdown-menu shadow" 
+                         style="display: none;"
+                         id="userDropdown">
+                        <div class="dropdown-item" id="ChangePassword">
+                            <span id="dropdown-text">Change Password</span> <i class="bi bi-key"></i>
+                        </div>
+                        <div class="dropdown-item" id="logoutUser">
+                            <span id="dropdown-text">Sign-out</span> <i class="bi bi-arrow-return-right"></i>
+                        </div>
+                        <div class="dropdown-item" id="RegUser">
+                            <span id="dropdown-text">Sign-In/Sign-Up</span> <i class="bi bi-arrow-return-left"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+
+
+    <div class="container main-grid">
+        <div class="sidebar">
+            <nav id="role-based-nav" class="d-flex flex-column">
+                
+            </nav>
+
+            <!-- <div class="premium-banner">
+                <h5>NYSC (National Youth Service Corps) </h5>  
+                <p>Service and Humility.</p>
+                <button class="btn btn-light w-100">Motto!!!</button>
+            </div> -->
+
+        </div>
+
+        <!-- Main Feed -->
+        <main>
+            <div class="feed-header">
+                <div class="feed-tabs">
+                    <button class="feed-tab active" data-feed="passenger-vehicles">Passenger vehicles</button>
+                    <button class="feed-tab myRequest" data-feed="request-vehicles">My Request</button>
+                </div>
+            </div>
+            <div class="feed-content active" id="passenger-vehicles-feed">
+
+                <div id="rides-spinner" class="d-flex d-none justify-content-center align-items-center" style="height: 200px;">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            <div class="row" id="rides-container">
+                
+            </div>
+            <div id="view-more-posts" style="text-align: center; margin: 20px; display: nne;">
+                <a href="#" id="view-more-link" style="color: #797979; text-decoration: underline; cursor: pointer;">
+                    View More Posts
+                </a>
+            </div>
+
+        </div>
+        
+        <div class="feed-content" id="request-vehicles-feed">
+            <div id="cargo-spinner" class="d-flex d-none justify-content-center align-items-center" style="height: 200px;">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+            <div id="view-more-posts" style="text-align: center; margin: 20px; display: nne;">
+                <a href="#" id="view-more-link" style="color: #797979; text-decoration: underline; cursor: pointer;">
+                    View More Posts
+                </a>
+            </div>    
+        </div>  
+
+        </main>
+    </div>
+
+
+
+
+
+    <nav class="mobile-footer-nav">
+        <div class="mobile-nav-items" id="mobile-nav-items">
+            <!-- Nav items will be injected here -->
+        </div>
+    </nav>
+
+    <div class="custom-alert" id="customAlert">
+        <div class="alert-progress" id="alertProgress"></div>
+        <span class="alert-content" id="alertContent"></span>
+    </div>
+
+   
+
+    
+<button class="mode-toggle" id="darkModeToggle">🌙</button>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/main.js"></script>
+<script src="js/index.js"></script>
+
+
+</body>
+</html>
