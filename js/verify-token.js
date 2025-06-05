@@ -59,17 +59,7 @@ window.onload = function() {
         showAlert('success','✅ ' +data.message);
         localStorage.removeItem('constant_email');
 
-        if (data.is_admin){
-            setTimeout(() => {
-                window.location.href = "D_index.html";
-            }, 3000);
-        }else if (data.is_manager){
-            setTimeout(() => {
-                window.location.href = "index.html";
-            }, 3000);
-        }else{
-            showAlert('error', "❌ Sorry, we can't no account type please login again or create an account");;
-        }
+        window.location.href = "index.html";
 
         
 

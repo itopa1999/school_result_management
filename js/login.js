@@ -38,14 +38,7 @@ document.querySelector(".login-form").addEventListener("submit", async function 
         localStorage.setItem("constant_is_manager", data.is_manager);
         localStorage.setItem("constant_profilePicture", data.profile_pic);
         document.querySelector(".login-form").reset();
-
-        if (data.is_admin){
-            window.location.href = "admin.html";
-        }else if (data.is_manager){
-            window.location.href = "manager.html";
-        }else{
-            showAlert('error', "❌ Sorry, we can't no account type please login again or create an account");;
-        }
+        window.location.href = "index.html";
         
 
 

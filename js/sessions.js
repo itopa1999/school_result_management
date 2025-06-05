@@ -34,7 +34,7 @@ function renderSessions(sessions) {
     container.innerHTML = `
       <div class="col-12 text-center mt-5">
         <p class="text-mute mb-3">No academic sessions found.</p>
-        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSessionModal">Add Session</button>
+        <button class="btn btn-green" data-bs-toggle="modal" data-bs-target="#addSessionModal">Add Session</button>
       </div>
     `;
     return;
@@ -61,7 +61,7 @@ function renderSessions(sessions) {
             <div class="d-flex justify-content-between align-items-start mb-3">
               <div>
                 <h5 class="card-title fw-bold mb-0">
-                  <i class="fas fa-school me-2 text-primary"></i> ${session.name}
+                  <i class="fas fa-school me-2 text-success"></i> ${session.name}
                 </h5>
                 <span class="badge bg-${session.is_current ? 'success' : 'secondary'} mt-1">
                   ${session.is_current ? 'Current Session' : 'Inactive'}
@@ -106,13 +106,18 @@ function setupToggles() {
     toggle.addEventListener('change', async (e) => {
       const termId = e.target.dataset.termId;
       const sessionId = e.target.dataset.sessionId;
-      await fetch(`${ADMIN_BASE_URL}/terms/${termId}/toggle/`, {
+      const response = await fetch(`${ADMIN_BASE_URL}/terms/${termId}/toggle/`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         }
       });
+      const data = await response.json();
+
+      if (!response.ok) {
+        showAlert('error', '❌ ' + data.error || '❌ Failed to update term');
+      }
       fetchSessions();
     });
   });
@@ -145,8 +150,10 @@ document.getElementById('addSessionForm').addEventListener('submit', async funct
         return;
     }
 
+    const data = await response.json();
+
     if (!response.ok) {
-      showAlert('error', '❌ Failed to create session');
+      showAlert('error', '❌ ' + data.error || '❌ Failed to create session');
       return;
     }
 

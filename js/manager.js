@@ -1,6 +1,6 @@
-restrictPageAccess({
-    onlyClient: true,
-  });
+// restrictPageAccess({
+//     onlyClient: true,
+//   });
 document.addEventListener("DOMContentLoaded", function () {
     async function fetchData() {
         try {

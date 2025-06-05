@@ -9,21 +9,28 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <style>
-
-.badge.bg-success {
-  background-color: var(--primary);
+        .subscription-card {
+  background: linear-gradient(to top right, var(--gray-light), var(--white));
+  border-radius: var(--border-radius);
+  transition: var(--transition);
+  border: 1px solid var(--gray-light);
 }
 
-.badge.bg-secondary {
-  background-color: var(--gray-light);
-  color: var(--text-medium);
+.subscription-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--hover-shadow);
 }
-.form-check-input:checked {
-  background-color: var(--primary);
-  border-color: var(--primary-dark);
+
+.badge {
+  font-size: 0.75rem;
+  padding: 0.4em 0.6em;
+  border-radius: 0.5rem;
 }
+
+
 
     </style>
+
 </head>
 <body>
     <div class="app-container">
@@ -90,82 +97,32 @@
                 </div>
             </header>
             <div class="page-content">
-                    <button class="btn custom-btn m-3" data-bs-toggle="modal" data-bs-target="#addSessionModal">Add Session</button>
+  <h4 class="fw-bold  mb-4" id="subscriptionHistory">Subscription History</h4>
 
-                    <div class="container-fluid">
-                        <div id="sessionContainer" class="row g-3">
-                            <!-- Cards will be injected here dynamically -->
-                        </div>
-                    </div>
-            </div>
-        </div>
-    </div>
-
-
-    <footer class="footer">
-        <div class="container">
-            <span>&copy; 2023 School Management System | All rights reserved</span>
-        </div>
-    </footer>
-
-    <!-- Add Session Modal -->
-<!-- Add Session Modal -->
-<div class="modal fade" id="addSessionModal" tabindex="-1" aria-labelledby="addSessionModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content rounded-4 shadow">
-      <div class="modal-header border-bottom-0">
-        <h5 class="modal-title" id="addSessionModalLabel">Add Academic Session</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-
-      <div class="modal-body">
-        <form id="addSessionForm" novalidate>
-          <!-- Session Name Input -->
-          <div class="mb-4">
-            <label for="sessionName" class="form-label fw-semibold text-mute">Session Name</label>
-            <input 
-              type="text" 
-              class="form-control form-control-lg" 
-              id="sessionName" 
-              placeholder="e.g. 2024/2025" 
-              required 
-              minlength="4"
-              maxlength="20"
-              pattern="^[\d/]+$"
-              title="Enter a valid session format, e.g., 2024/2025"
-            >
-            <div class="invalid-feedback">
-              Please enter a valid session name (e.g. 2024/2025).
-            </div>
-          </div>
-
-          <!-- Current Session Toggle -->
-          <div class="form-check form-switch mb-4">
-            <input class="form-check-input" type="checkbox" id="isCurrentSwitch" />
-            <label class="form-check-label fw-semibold text-mute" for="isCurrentSwitch">Set as Current Session</label>
-          </div>
-
-          <!-- Submit Button -->
-          <div class="d-grid">
-            <button type="submit" class="btn btn-green btn-lg fw-bold">
-              <i class="fas fa-plus-circle me-2"></i> Add Session
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
+  <div class="row g-4">
+    <!-- Subscription Card 1 -->
+    
+    <!-- Add more cards as needed -->
 </div>
 
+            </div>
+        </div>
+    </div>
 
-    <div class="custom-alert" id="customAlert">
+            <footer class="footer">
+                <div class="container">
+                    <span>&copy; 2023 School Management System | All rights reserved</span>
+                </div>
+            </footer>
+
+            <div class="custom-alert" id="customAlert">
         <div class="alert-progress" id="alertProgress"></div>
         <span class="alert-content" id="alertContent"></span>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/main.js"></script>
-    <script src="js/sessions.js"></script>
+    <script src="js/subscribe.js"></script>
     <script>
         
     </script>

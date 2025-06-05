@@ -14,26 +14,81 @@ const is_manager = localStorage.getItem('constant_is_manager');
 const navContainer = document.getElementById("navContainer");
 
 const adminNav = `
-  <nav class="nav flex-column">
-    <a class="nav-link active" href="admin.html"><i class="fas fa-home me-2"></i> Dashboard</a>
-    <a class="nav-link" href="session-lists.html"><i class="fas fa-users-cog me-2"></i> Manage Sessions</a>
-    <a class="nav-link" href="class-lists.html"><i class="fas fa-chalkboard me-2"></i> Classes</a>
-    <a class="nav-link" href="#"><i class="fas fa-chart-bar me-2"></i> Results</a>
-    <a class="nav-link" href="#"><i class="fas fa-credit-card me-2"></i> Subscription</a>
-    <a class="nav-link" href="#"><i class="fas fa-users-cog me-2"></i> Manage Users</a>
-    <a class="nav-link" id="ChangePassword" href="#"><i class="fas fa-key me-2"></i> Change Password</a>
-    <a class="nav-link" id="logoutUser" href="#"><i class="fas fa-sign-out-alt me-2"></i> Logout</a>
-  </nav>
+    <div class="nav-item">
+        <a href="index.html" class="nav-link">
+            <i class="fas fa-tachometer-alt"></i>
+            <span>Dashboard</span>
+        </a>
+    </div>
+    <div class="nav-item">
+        <a href="session-lists.html" class="nav-link ">
+            <i class="fas fa-users-cog "></i>
+            <span>Manage Sessions</span>
+        </a>
+    </div>
+    <div class="nav-item">
+        <a href="class-lists.html" class="nav-link ">
+            <i class="fas fa-chalkboard"></i>
+            <span>Classes</span>
+        </a>
+    </div>
+    <div class="nav-item">
+        <a href="subscription.html" class="nav-link ">
+            <i class="fas fa-credit-card"></i>
+            <span>Subscription</span>
+        </a>
+    </div>
+    <div class="nav-item">
+        <a href="users.html" class="nav-link ">
+            <i class="fas fa-users-cog"></i>
+            <span>Manage Users</span>
+        </a>
+    </div>
+    <div class="nav-item">
+        <a href="settings.html" class="nav-link ">
+            <i class="fas fa-chart-bar"></i>
+            <span>Settings</span>
+        </a>
+    </div>
 `;
 
 const managerNav = `
-  <nav class="nav flex-column">
-    <a class="nav-link active" href="manager.html"><i class="fas fa-home me-2"></i> Dashboard</a>
-    <a class="nav-link" href="class-lists.html"><i class="fas fa-chalkboard me-2"></i> Classes</a>
-    <a class="nav-link" href="#"><i class="fas fa-chart-bar me-2"></i> Results</a>
-    <a class="nav-link" id="ChangePassword" href="#"><i class="fas fa-key me-2"></i> Change Password</a>
-    <a class="nav-link" id="logoutUser" href="#"><i class="fas fa-sign-out-alt me-2"></i> Logout</a>
-  </nav>
+ <div class="nav-item">
+        <a href="index.html" class="nav-link active ">
+            <i class="fas fa-tachometer-alt"></i>
+            <span>Dashboard</span>
+        </a>
+    </div>
+    <div class="nav-item">
+        <a href="session-lists.html" class="nav-link ">
+            <i class="fas fa-users-cog "></i>
+            <span>Manage Sessions</span>
+        </a>
+    </div>
+    <div class="nav-item">
+        <a href="class-lists.html" class="nav-link ">
+            <i class="fas fa-chalkboard"></i>
+            <span>Classes</span>
+        </a>
+    </div>
+    <div class="nav-item">
+        <a href="#" class="nav-link ">
+            <i class="fas fa-credit-card"></i>
+            <span>Subscription</span>
+        </a>
+    </div>
+    <div class="nav-item">
+        <a href="#" class="nav-link ">
+            <i class="fas fa-users-cog"></i>
+            <span>Manage Users</span>
+        </a>
+    </div>
+    <div class="nav-item">
+        <a href="settings.html" class="nav-link ">
+            <i class="fas fa-chart-bar"></i>
+            <span>Settings</span>
+        </a>
+    </div>
 `;
 
 if (is_admin) {
@@ -41,7 +96,8 @@ if (is_admin) {
 } else if (is_manager) {
   navContainer.innerHTML = managerNav;
 } else {
-  window.location.href = "login.html";
+    //   window.location.href = "login.html";
+    navContainer.innerHTML = adminNav;
 }
 
 
@@ -128,7 +184,7 @@ function showChangePasswordModal() {
                             <label for="confirmPassword" class="form-label text-mute">Confirm Password</label>
                             <input type="password"  name='password2' class="form-control" id="confirmPassword" required>
                         </div>
-                        <button type="submit" id="changePasswordBtn" class="btn btn-primary w-100" >Change Password → 
+                        <button type="submit" id="changePasswordBtn" class="btn btn-green w-100" >Change Password → 
                             <span class="spinner-border spinner-border-sm d-none" id="changePasswordSpinnerBtn" role="status" aria-hidden="true"></span>
                         </button>
                     </form>
@@ -241,9 +297,9 @@ function RemoveAccessFromLocalStorage(){
 
 function restrictPageAccess(options) {
     if (options.onlyAdmin && is_admin == false) {
-        window.location.href = options.redirectTo || "manager.html";
+        window.location.href = options.redirectTo || "index.html";
     }else if(options.onlyManager && is_manager == false) {
-        window.location.href = options.redirectTo || "admin.html";
+        window.location.href = options.redirectTo || "index.html";
     }
     else{
         window.location.href = options.redirectTo || "auth.html";
@@ -251,60 +307,76 @@ function restrictPageAccess(options) {
 }
 
 
-
-// Mobile menu toggle
-const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-const sidebar = document.querySelector('.sidebar');
-const overlay = document.querySelector('.overlay');
-
-mobileMenuBtn.addEventListener('click', () => {
-    sidebar.classList.toggle('active');
-    overlay.style.display = 'block';
+// Toggle sidebar on mobile
+document.querySelector('.menu-btn').addEventListener('click', function() {
+    document.querySelector('.sidebar').classList.toggle('active');
+    document.querySelector('.overlay').classList.toggle('active');
 });
 
-overlay.addEventListener('click', () => {
-    sidebar.classList.remove('active');
-    overlay.style.display = 'none';
+// Close sidebar when clicking on overlay
+document.querySelector('.overlay').addEventListener('click', function() {
+    document.querySelector('.sidebar').classList.remove('active');
+    this.classList.remove('active');
 });
 
-// Dark Mode Toggle
-const themeToggle = document.getElementById('themeToggle');
-const body = document.body;
-
-themeToggle.addEventListener('click', () => {
-    body.classList.toggle('dark-mode');
-    const isDarkMode = body.classList.contains('dark-mode');
-    themeToggle.innerHTML = isDarkMode ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+// Toggle dark mode
+const darkModeToggle = document.getElementById('darkModeToggle');
+darkModeToggle.addEventListener('click', function() {
+    document.body.classList.toggle('dark-mode');
+    // Save preference to localStorage
+    const isDarkMode = document.body.classList.contains('dark-mode');
     localStorage.setItem('darkMode', isDarkMode);
 });
 
-// Check for saved theme preference
+// Check for saved dark mode preference
 if (localStorage.getItem('darkMode') === 'true') {
-    body.classList.add('dark-mode');
-    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+    document.body.classList.add('dark-mode');
 }
 
-// Time-based Greeting
-function updateGreeting() {
-    const hour = new Date().getHours();
-    const greeting = document.getElementById('timeGreeting');
-    const dateElement = document.getElementById('currentDate');
-    
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    dateElement.textContent = new Date().toLocaleDateString('en-US', options);
+// Toggle user dropdown
+const userBtn = document.querySelector('.user-btn');
+const dropdownMenu = document.querySelector('.dropdown-menu');
 
-    if (hour < 12) {
-        greeting.textContent = 'Good Morning 🌞';
-    } else if (hour < 18) {
-        greeting.textContent = 'Good Afternoon ☀️';
-    } else {
-        greeting.textContent = 'Good Evening 🌙';
+userBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    dropdownMenu.classList.toggle('show');
+});
+
+// Close dropdown when clicking outside
+document.addEventListener('click', function(e) {
+    if (dropdownMenu.classList.contains('show') && !e.target.closest('.user-dropdown')) {
+        dropdownMenu.classList.remove('show');
     }
+});
+
+// Set current date and time greeting
+function updateDateTime() {
+    const now = new Date();
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    document.getElementById('currentDate').textContent = now.toLocaleDateString('en-US', options);
+    
+    const hour = now.getHours();
+    let greeting;
+    if (hour < 12) {
+        greeting = 'Good Morning 🌞';
+    } else if (hour < 18) {
+        greeting = 'Good Afternoon ☀️';
+    } else {
+        greeting = 'Good Evening 🌙';
+    }
+    
+    document.getElementById('timeGreeting').textContent = greeting + ', Admin!';
 }
 
-// Initialize greeting and update every minute
-updateGreeting();
-setInterval(updateGreeting, 60000);
+// Initialize
+updateDateTime();
+
+// Update greeting every minute (in case page is left open)
+setInterval(updateDateTime, 60000);
+    
+
+
+
 
 // Close sidebar on mobile when clicking links
 document.querySelectorAll('.nav-link').forEach(link => {
@@ -354,3 +426,16 @@ async function fetchMainInfo() {
 
 // Call the function
 fetchMainInfo();
+
+
+const currentPath = window.location.pathname.split("/").pop();
+const links = document.querySelectorAll(".nav-link");
+
+links.forEach(link => {
+    const href = link.getAttribute("href");
+    if (href && href === currentPath) {
+        link.classList.add("active");
+    } else {
+        link.classList.remove("active");
+    }
+});

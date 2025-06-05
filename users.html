@@ -9,21 +9,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <style>
-
-.badge.bg-success {
-  background-color: var(--primary);
-}
-
-.badge.bg-secondary {
-  background-color: var(--gray-light);
-  color: var(--text-medium);
-}
-.form-check-input:checked {
-  background-color: var(--primary);
-  border-color: var(--primary-dark);
-}
-
+       
     </style>
+
 </head>
 <body>
     <div class="app-container">
@@ -90,65 +78,50 @@
                 </div>
             </header>
             <div class="page-content">
-                    <button class="btn custom-btn m-3" data-bs-toggle="modal" data-bs-target="#addSessionModal">Add Session</button>
-
-                    <div class="container-fluid">
-                        <div id="sessionContainer" class="row g-3">
-                            <!-- Cards will be injected here dynamically -->
-                        </div>
-                    </div>
+            <div class="d-flex flex-wrap align-items-center gap-2 mb-4">
+              <h4 class="fw-bold te mb-0">User Management</h4>
+              <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createUserModal">
+                  <i class="fas fa-user-plus me-2"></i> Create User
+              </button>
             </div>
-        </div>
+
+              <div class="row g-4" id="usersContainer">
+                <!-- Add more user cards as needed -->
+            </div>
+
+            </div>
+              </div>
+          </div>
+
+            <footer class="footer">
+                <div class="container">
+                    <span>&copy; 2023 School Management System | All rights reserved</span>
+                </div>
+            </footer>
+
+            <div class="custom-alert" id="customAlert">
+        <div class="alert-progress" id="alertProgress"></div>
+        <span class="alert-content" id="alertContent"></span>
     </div>
 
-
-    <footer class="footer">
-        <div class="container">
-            <span>&copy; 2023 School Management System | All rights reserved</span>
-        </div>
-    </footer>
-
-    <!-- Add Session Modal -->
-<!-- Add Session Modal -->
-<div class="modal fade" id="addSessionModal" tabindex="-1" aria-labelledby="addSessionModalLabel" aria-hidden="true">
+    <div class="modal fade" id="createUserModal" tabindex="-1" aria-labelledby="createUserModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content rounded-4 shadow">
+    <div class="modal-content rounded-4 shadow-sm">
       <div class="modal-header border-bottom-0">
-        <h5 class="modal-title" id="addSessionModalLabel">Add Academic Session</h5>
+        <h5 class="modal-title fw-bold text-dark" id="createUserModalLabel">Create New User</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 
       <div class="modal-body">
-        <form id="addSessionForm" novalidate>
-          <!-- Session Name Input -->
-          <div class="mb-4">
-            <label for="sessionName" class="form-label fw-semibold text-mute">Session Name</label>
-            <input 
-              type="text" 
-              class="form-control form-control-lg" 
-              id="sessionName" 
-              placeholder="e.g. 2024/2025" 
-              required 
-              minlength="4"
-              maxlength="20"
-              pattern="^[\d/]+$"
-              title="Enter a valid session format, e.g., 2024/2025"
-            >
-            <div class="invalid-feedback">
-              Please enter a valid session name (e.g. 2024/2025).
-            </div>
+        <form id="createUserForm" enctype="multipart/form-data">
+          <div class="mb-3">
+            <label for="userEmail" class="form-label fw-semibold text-medium">Email Address</label>
+            <input type="email" class="form-control" id="userEmail" placeholder="user@example.com" required>
           </div>
 
-          <!-- Current Session Toggle -->
-          <div class="form-check form-switch mb-4">
-            <input class="form-check-input" type="checkbox" id="isCurrentSwitch" />
-            <label class="form-check-label fw-semibold text-mute" for="isCurrentSwitch">Set as Current Session</label>
-          </div>
-
-          <!-- Submit Button -->
           <div class="d-grid">
-            <button type="submit" class="btn btn-green btn-lg fw-bold">
-              <i class="fas fa-plus-circle me-2"></i> Add Session
+            <button type="submit" class="btn btn-primary fw-bold">
+              <i class="fas fa-user-plus me-2"></i> Create User
             </button>
           </div>
         </form>
@@ -158,14 +131,9 @@
 </div>
 
 
-    <div class="custom-alert" id="customAlert">
-        <div class="alert-progress" id="alertProgress"></div>
-        <span class="alert-content" id="alertContent"></span>
-    </div>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/main.js"></script>
-    <script src="js/sessions.js"></script>
+    <script src="js/users.js"></script>
     <script>
         
     </script>

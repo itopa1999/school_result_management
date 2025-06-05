@@ -105,17 +105,7 @@ tokenForm.addEventListener('submit', async function(e) {
         localStorage.setItem("constant_is_manager", data.is_manager);
         localStorage.setItem("constant_profilePicture", data.profile_pic);
         showAlert('success','✅ ' +data.message);
-        if (data.is_admin){
-            setTimeout(() => {
-                window.location.href = "D_index.html";
-            }, 3000);
-        }else if (data.is_manager){
-            setTimeout(() => {
-                window.location.href = "index.html";
-            }, 3000);
-        }else{
-            showAlert('error', "❌ Sorry, we can't no account type please login again or create an account");;
-        }
+        window.location.href = "index.html";
         
         
 

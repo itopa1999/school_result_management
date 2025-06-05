@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/index.css">
+    <style>
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Overlay for Mobile -->
+        <div class="overlay"></div>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="brand-icon">
+                    <i class="fas fa-leaf"></i>
+                </div>
+                <div class="brand">EcoVision</div>
+                <div class="school-name" id="schoolNameDisplay"></div>
+            </div>
+            
+            <div class="greeting">
+                <h5 id="timeGreeting">Good Morning, Admin!</h5>
+                <small class="text-mute" id="currentDate">Monday, June 10, 2023</small>
+            </div>
+            
+            <div class="nav-links" id="navContainer">
+                
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <button class="menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+
+                <div class="header-right">
+                    <div class="user-dropdown">
+                        <button class="user-btn">
+                            <div class="user-avatar">JD</div>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+
+                        <div class="dropdown-menu">
+                            <a href="#" class="dropdown-item">
+                                <i class="fas fa-bell"></i>
+                                <span>Notifications</span>
+                            </a>
+                            <a href="#" id="ChangePassword" class="dropdown-item">
+                                <i class="fas fa-lock"></i>
+                                <span>Change Password</span>
+                            </a>
+                            <a href="#" class="dropdown-item">
+                                <i class="fas fa-moon"></i>
+                                <span>Dark Mode</span>
+                                <div class="dark-mode-toggle" id="darkModeToggle">
+                                    <div class="toggle-circle"></div>
+                                </div>
+                            </a>
+                            <a href="#" id="logoutUser" class="dropdown-item">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Logout</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Page Content -->
+            <div class="page-content">
+                <div class="welcome-card">
+                    <h1>Welcome to EcoVision</h1>
+                    <p>Monitor </p>
+                </div>
+
+                <div class="container-fluid">
+                    <!-- Current Term/Session -->
+                    <div class="alert alert-info">
+                        <i class="fas fa-calendar-alt me-2 "></i> Current Session: <span id="sessionVal"> loading... </span > | Term: <span id="termVal">loading...</span>
+                    </div>
+
+                    <!-- Classes Created -->
+                    <div class="row mb-4">
+                        <div class="col-12 col-md-4 mb-4">
+                            <div class="dashboard-card">
+                                <div class="card-header">
+                                    <div class="card-header-text">
+                                        <i class="fas fa-chalkboard"></i> Classes Created
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title"><span id="active-class" class="counter-animation">0</span> Active Classes</h5>
+                                    <p class="card-text">Manage your classes and student allocations efficiently with our tools</p>
+                                    <div class="metric-highlight">
+                                        <i class="fas fa-arrow-up me-1"></i> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-12 col-md-4 mb-4">
+                            <div class="dashboard-card">
+                                <div class="card-header">
+                                    <div class="card-header-text">
+                                        <i class="fas fa-book-open"></i> School Subjects
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title"><span id="total-subjects" class="counter-animation">0</span> Active Subjects</h5>
+                                    <p class="card-text">Manage your subjects, curriculum, and teaching materials</p>
+                                    <div class="metric-highlight">
+                                        <i class="fas fa-users me-1"></i> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-12 col-md-4 mb-4">
+                            <div class="dashboard-card">
+                                <div class="card-header">
+                                    <div class="card-header-text">
+                                        <i class="fas fa-school"></i> School Information
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title" id="schoolNameCard">Null</h5>
+                                    <p class="card-text">Location: <span id="school_location" class="fw-bold">Null</span></p>
+                                    <p class="card-text">Students: <span id="total_students" class="counter-animation">0</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Subscription Status -->
+                    <div class="dashboard-card subscription-card mb-4">
+                        <div class="card-header">
+                            <div class="card-header-text">
+                                <i class="fas fa-credit-card"></i> Subscription Status
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="subscription-status">
+                                <span class="status-badge">
+                                    <i class="fas fa-check-circle"></i> Active
+                                </span>
+                                <div>
+                                    <h5 class="text-success mb-0">Premium Plan</h5>
+                                    <p class="text-muted mb-0">Full access to all features</p>
+                                </div>
+                            </div>
+                            
+                            <div class="subscription-details">
+                                <div class="d-flex flex-wrap justify-content-between">
+                                    <div>
+                                        <p class="mb-1"><strong>Expiration:</strong> 2024-01-31</p>
+                                        <p class="mb-0"><strong>Renewal:</strong> Annual</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <footer class="footer">
+                <div class="container">
+                    <span>&copy; 2023 School Management System | All rights reserved</span>
+                </div>
+            </footer>
+
+        </div>
+    </div>
+
+    <div class="custom-alert" id="customAlert">
+        <div class="alert-progress" id="alertProgress"></div>
+        <span class="alert-content" id="alertContent"></span>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-..." crossorigin="anonymous"></script>
+
+    <script src="js/main.js"></script>
+    <script src="js/index.js"></script>
+    <script>
+    </script>
+</body>
+</html>
