@@ -130,6 +130,12 @@ document.getElementById('addSessionForm').addEventListener('submit', async funct
   const sessionName = document.getElementById('sessionName').value.trim();
   const isCurrent = document.getElementById('isCurrentSwitch').checked;
 
+  const submitButton = document.getElementById("submitBtn");
+  const submitSpinner = document.getElementById("submitSpinner");
+
+  submitButton.disabled = true;
+  submitSpinner.classList.remove("d-none");
+
   if (!sessionName) return;
 
   try {
@@ -145,6 +151,9 @@ document.getElementById('addSessionForm').addEventListener('submit', async funct
       })
     });
 
+    submitButton.disabled = false;
+    submitSpinner.classList.add("d-none");
+
     if (response.status === 401) {
         window.location.href = 'auth.html';
         return;
@@ -157,7 +166,7 @@ document.getElementById('addSessionForm').addEventListener('submit', async funct
       return;
     }
 
-    showAlert('success', '✅ Session created successfully');
+    showAlert('success', '✅ ' + data.message );
     fetchSessions(); // Refresh session list
 
     const modal = bootstrap.Modal.getInstance(document.getElementById('addSessionModal'));
@@ -166,7 +175,10 @@ document.getElementById('addSessionForm').addEventListener('submit', async funct
   } catch (error) {
     showAlert('error', '❌ Error creating session');
     console.log(error)
-  }
+  } finally {
+        submitButton.disabled = false;
+        submitSpinner.classList.add("d-none");
+    }
 });
 
 

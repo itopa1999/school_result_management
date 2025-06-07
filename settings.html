@@ -5,11 +5,121 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Index</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <style>
-
+      .modern-tabs-container .nav-tabs {
+            border-bottom: none;
+            position: relative;
+            display: flex;
+            flex-wrap: wrap;
+            padding: 0 10px;
+        }
+        
+        .modern-tabs-container .nav-item {
+            margin: 0 5px;
+        }
+        
+        .modern-tabs-container .nav-link {
+            color: var(--text-medium);
+            background: var(--gray-light);
+            border: none;
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+            padding: 16px 24px;
+            font-weight: 600;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            margin-bottom: 8px;
+        }
+        
+        .modern-tabs-container .nav-link i {
+            margin-right: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .modern-tabs-container .nav-link:hover {
+            background: var(--primary-light);
+            color: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: var(--hover-shadow);
+        }
+        
+        .modern-tabs-container .nav-link.active {
+            color: var(--white);
+            background: var(--primary);
+            box-shadow: var(--hover-shadow);
+            transform: translateY(-3px);
+        }
+        
+        .modern-tabs-container .nav-link.active:after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: var(--primary);
+            z-index: 1;
+        }
+        
+        .modern-tabs-container .tab-content {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 30px;
+            margin-top: -8px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .modern-tabs-container .tab-pane {
+            animation: fadeIn 0.4s ease;
+        }
+        
+        .modern-tabs-container h3 {
+            color: var(--primary-dark);
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .modern-tabs-container p {
+            color: var(--text-medium);
+            line-height: 1.8;
+        }
+        
+        
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .modern-tabs-container .nav-tabs {
+                flex-direction: column;
+            }
+            
+            .modern-tabs-container .nav-item {
+                margin: 5px 0;
+            }
+            
+            .modern-tabs-container .nav-link {
+                border-radius: var(--border-radius);
+                margin-bottom: 5px;
+            }
+            
+            .modern-tabs-container .nav-link.active:after {
+                display: none;
+            }
+        }
     </style>
 
 </head>
@@ -49,7 +159,7 @@
                 <div class="header-right">
                     <div class="user-dropdown">
                         <button class="user-btn">
-                            <div class="user-avatar">JD</div>
+                            <img src="" id="profilePic" class="user-avatar"></img>
                             <i class="fas fa-chevron-down"></i>
                         </button>
 
@@ -78,46 +188,48 @@
                 </div>
             </header>
             <div class="page-content">
-        <div class="container-fluid">
-            <div class="tab-card">
+  <div class="tab-card modern-tabs-container">
     <!-- Nav Tabs -->
     <ul class="nav nav-tabs px-3 pt-3" id="standardTab" role="tablist">
       <li class="nav-item" role="presentation">
-        <button class="nav-link active text-mute" id="subject-tab" data-bs-toggle="tab" data-bs-target="#subject"
-                type="button" role="tab" aria-controls="subject" aria-selected="true">
-          Subject
+        <button class="nav-link active" id="subject-tab" data-bs-toggle="tab" data-bs-target="#subject"
+          type="button" role="tab" aria-controls="subject" aria-selected="true">
+          <i class="fas fa-book"></i> Subject
         </button>
       </li>
       <li class="nav-item" role="presentation">
         <button class="nav-link" id="grading-tab" data-bs-toggle="tab" data-bs-target="#grading"
-                type="button" role="tab" aria-controls="grading" aria-selected="false">
-          Grading
+          type="button" role="tab" aria-controls="grading" aria-selected="false">
+          <i class="fas fa-chart-line"></i> Grading
         </button>
       </li>
       <li class="nav-item" role="presentation">
         <button class="nav-link" id="school-tab" data-bs-toggle="tab" data-bs-target="#school"
-                type="button" role="tab" aria-controls="school" aria-selected="false">
-          School Profile
+          type="button" role="tab" aria-controls="school" aria-selected="false">
+          <i class="fas fa-school"></i> School Profile
         </button>
       </li>
     </ul>
 
     <!-- Tab Content -->
-    <div class="tab-content" id="standardTabContent">
+    <div class="tab-content p-3 border border-top-0 rounded-bottom" id="standardTabContent">
       <div class="tab-pane fade show active" id="subject" role="tabpanel" aria-labelledby="subject-tab">
         <h5>Subject</h5>
         <p>Display subjects metrics</p>
-        <button class="btn btn-secondary m-3 btn-sm" data-bs-toggle="modal" data-bs-target="#addSubjectModal">Add Subject</button>
+        <button class="btn btn-secondary m-3 btn-sm" data-bs-toggle="modal" data-bs-target="#addSubjectModal">
+          <i class="fas fa-plus"></i> Add Subject</button>
         <div class="list-group mb-3" id="subject-list"></div>
       </div>
+
       <div class="tab-pane fade" id="grading" role="tabpanel" aria-labelledby="grading-tab">
         <h5>Grading</h5>
         <p>Display grading metrics</p>
         <button type="button" class="btn btn-secondary m-3" data-bs-toggle="modal" data-bs-target="#addGradingModal">
-            Add Grading Range
+          <i class="fas fa-plus"></i> Add Grading Range
         </button>
         <div id="gradingList" class="list-group mb-3"></div>
       </div>
+
       <div class="tab-pane fade" id="school" role="tabpanel" aria-labelledby="school-tab">
         <h5>School Profile</h5>
         <form id="schoolProfileForm">
@@ -132,15 +244,16 @@
           </div>
 
           <div class="mt-3">
-            <button type="submit" class="btn btn-primary">Update School Profile</button>
+            <button type="submit" id="submitBtn4" class="btn btn-green"><i class="fas fa-save"></i> Update School Profile 
+            <span class="spinner-border spinner-border-sm d-none" id="submitSpinner4" role="status" aria-hidden="true"></span>
+
+            </button>
           </div>
         </form>
       </div>
     </div>
   </div>
-
-        </div>
-    </div>
+</div>
     <!-- Sticky Footer -->
     <footer class="footer">
                 <div class="container">
@@ -160,7 +273,9 @@
             <input type="text" class="form-control" name="name" placeholder="Subject name" required>
             </div>
             <div class="modal-footer">
-            <button type="submit" class="btn btn-primary">Add</button>
+            <button type="submit" id="submitBtn" class="btn btn-green"><i class="fas fa-plus"></i> Add 
+                <span class="spinner-border spinner-border-sm d-none" id="submitSpinner" role="status" aria-hidden="true"></span>
+            </button>
             </div>
         </form>
         </div>
@@ -181,7 +296,9 @@
           <input type="text" class="form-control" name="remark" placeholder="Remark" required maxlength="255">
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-primary">Add</button>
+          <button type="submit" id="submitBtn1" class="btn btn-green"><i class="fas fa-plus"></i> Add 
+                <span class="spinner-border spinner-border-sm d-none" id="submitSpinner1" role="status" aria-hidden="true"></span>
+            </button>
         </div>
       </form>
     </div>
@@ -199,9 +316,20 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/main.js"></script>
-    <script src="js/result-settings.js"></script>
-    <script>
-        
+    <script src="js/settings.js"></script>
+     <script>
+        // Add smooth tab switching with animations
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function() {
+                // Remove active class from all tabs
+                document.querySelectorAll('.nav-link').forEach(tab => {
+                    tab.classList.remove('active');
+                });
+                
+                // Add active class to clicked tab
+                this.classList.add('active');
+            });
+        });
     </script>
 </body>
 </html>

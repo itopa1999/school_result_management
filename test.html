@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Result Sheet</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+       
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 50px;
+            max-width: 800px;
+        }
+
+        .page-header h1 {
+            font-size: 3.2rem;
+            margin-bottom: 15px;
+            text-shadow: 0 3px 6px rgba(0,0,0,0.2);
+        }
+
+        .page-header p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+        }
+
+        .result-btn {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            color: #2c3e50;
+            border: none;
+            padding: 18px 45px;
+            border-radius: 50px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.25);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .result-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .result-modal {
+            width: 90%;
+            max-width: 950px;
+            max-height: 90vh;
+            overflow-y: auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.35);
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.4s ease;
+        }
+
+        .modal-overlay.active .result-modal {
+            transform: scale(1);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background: #e74c3c;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+
+        .close-modal:hover {
+            background: #c0392b;
+            transform: rotate(90deg);
+        }
+
+        /* Result Sheet Styles */
+        .result-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .result-header {
+            background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
+            padding: 30px;
+            text-align: center;
+            border-bottom: 3px solid #5d9cec;
+            position: relative;
+        }
+
+        .result-school-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        .result-school-info {
+            font-size: 1.1rem;
+            color: #34495e;
+            margin-bottom: 25px;
+        }
+
+        .result-student-info {
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 8px;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            text-align: left;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .result-info-item {
+            margin-bottom: 8px;
+        }
+
+        .result-info-label {
+            font-weight: 700;
+            color: #3498db;
+        }
+
+        .results-section {
+            padding: 30px;
+        }
+
+        .result-section-title {
+            text-align: center;
+            color: #27ae60;
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px dashed #2ecc71;
+        }
+
+        .result-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .result-table th {
+            background-color: #27ae60;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .result-table td {
+            padding: 12px 15px;
+            text-align: center;
+            border-bottom: 1px solid #ecf0f1;
+        }
+
+        .result-table tr:nth-child(even) {
+            background-color: #f8fff9;
+        }
+
+        .result-table tr:nth-child(odd) {
+            background-color: #ffffff;
+        }
+
+        .result-subject-cell {
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .summary-section {
+            background: linear-gradient(135deg, #fff9c4 0%, #fffde7 100%);
+            padding: 30px;
+            border-top: 3px solid #ffd54f;
+        }
+
+        .result-summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .result-summary-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .result-summary-title {
+            color: #f39c12;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #f1c40f;
+            font-weight: 700;
+        }
+
+        .result-summary-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #e67e22;
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .result-comments-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .result-comment-box {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            min-height: 180px;
+        }
+
+        .result-comment-title {
+            color: #9b59b6;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .result-signature-area {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed #bdc3c7;
+        }
+
+        .result-signature-line {
+            height: 1px;
+            background: #7f8c8d;
+            margin: 25px 0 10px;
+        }
+
+        .result-signature-label {
+            text-align: center;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+
+        .result-footer-note {
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #ecf0f1;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-top: 1px solid #eaeaea;
+        }
+
+        .modal-btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.1rem;
+        }
+
+        .print-btn {
+            background: #3498db;
+            color: white;
+        }
+
+        .print-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .close-btn {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .close-btn:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .result-header {
+                padding: 20px 15px;
+            }
+            
+            .result-school-name {
+                font-size: 2rem;
+            }
+            
+            .results-section, .summary-section {
+                padding: 20px 15px;
+            }
+            
+            .result-table th, 
+            .result-table td {
+                padding: 10px 8px;
+                font-size: 0.9rem;
+            }
+            
+            .result-summary-grid, .result-comments-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-actions {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .modal-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .result-school-name {
+                font-size: 1.7rem;
+            }
+            
+            .result-table {
+                font-size: 0.85rem;
+            }
+            
+            .result-table th, 
+            .result-table td {
+                padding: 8px 5px;
+            }
+        }
+
+        /* Print Styles - Fixed to print entire result sheet */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            
+            .modal-overlay,
+            .modal-overlay * {
+                visibility: visible;
+            }
+            
+            .modal-overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                background: white;
+                padding: 0;
+                margin: 0;
+                display: block !important;
+                opacity: 1;
+                transform: none !important;
+                overflow: visible;
+            }
+            
+            .result-modal {
+                box-shadow: none;
+                max-height: none;
+                overflow: visible;
+                width: 100%;
+                max-width: 100%;
+                margin: 0;
+                padding: 0;
+                transform: none !important;
+            }
+            
+            .close-modal,
+            .modal-actions {
+                display: none;
+            }
+            
+            .result-container {
+                box-shadow: none;
+                border-radius: 0;
+                margin: 0;
+                max-width: 100%;
+            }
+            
+            body {
+                background: white;
+                padding: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-header">
+        <h1>Student Academic Results</h1>
+        <p>View and print your academic performance report</p>
+    </div>
+    
+    <button class="result-btn" onclick="openResultModal()">
+        <span>📄</span> View Result Sheet
+    </button>
+    
+    <!-- Result Modal -->
+    <div class="modal-overlay" id="resultModal">
+        <div class="result-modal">
+            <div class="close-modal" onclick="closeResultModal()">×</div>
+            
+            <div class="result-container">
+                <!-- Header Section -->
+                <div class="result-header">
+                    <h1 class="result-school-name">Bright Future Academy</h1>
+                    <div class="result-school-info">123 Education Street, Knowledge City | Phone: (123) 456-7890 | www.brightfuture.edu</div>
+                    
+                    <div class="result-student-info">
+                        <div class="result-info-item"><span class="result-info-label">Student Name:</span> Emily Johnson</div>
+                        <div class="result-info-item"><span class="result-info-label">Admission No:</span> BF2023-045</div>
+                        <div class="result-info-item"><span class="result-info-label">Class:</span> Grade 8B</div>
+                        <div class="result-info-item"><span class="result-info-label">Gender:</span> Female</div>
+                        <div class="result-info-item"><span class="result-info-label">Academic Session:</span> 2024/2025</div>
+                        <div class="result-info-item"><span class="result-info-label">Term:</span> 2nd Term</div>
+                    </div>
+                </div>
+                
+                <!-- Results Section -->
+                <div class="results-section">
+                    <h2 class="result-section-title">Academic Performance</h2>
+                    
+                    <table class="result-table">
+                        <thead>
+                            <tr>
+                                <th>Subject</th>
+                                <th>CA1</th>
+                                <th>CA2</th>
+                                <th>Exam</th>
+                                <th>Total</th>
+                                <th>Grade</th>
+                                <th>Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="result-subject-cell">Mathematics</td>
+                                <td>18</td>
+                                <td>20</td>
+                                <td>58</td>
+                                <td>96</td>
+                                <td>A</td>
+                                <td>Excellent</td>
+                            </tr>
+                            <tr>
+                                <td class="result-subject-cell">English Language</td>
+                                <td>17</td>
+                                <td>19</td>
+                                <td>55</td>
+                                <td>91</td>
+                                <td>A</td>
+                                <td>Very Good</td>
+                            </tr>
+                            <tr>
+                                <td class="result-subject-cell">Basic Science</td>
+                                <td>16</td>
+                                <td>18</td>
+                                <td>52</td>
+                                <td>86</td>
+                                <td>B</td>
+                                <td>Good</td>
+                            </tr>
+                            <tr>
+                                <td class="result-subject-cell">Social Studies</td>
+                                <td>15</td>
+                                <td>17</td>
+                                <td>50</td>
+                                <td>82</td>
+                                <td>B</td>
+                                <td>Good</td>
+                            </tr>
+                            <tr>
+                                <td class="result-subject-cell">Computer Studies</td>
+                                <td>19</td>
+                                <td>20</td>
+                                <td>60</td>
+                                <td>99</td>
+                                <td>A+</td>
+                                <td>Outstanding</td>
+                            </tr>
+                            <tr>
+                                <td class="result-subject-cell">Creative Arts</td>
+                                <td>20</td>
+                                <td>20</td>
+                                <td>56</td>
+                                <td>96</td>
+                                <td>A</td>
+                                <td>Excellent</td>
+                            </tr>
+                            <tr>
+                                <td class="result-subject-cell">Physical Education</td>
+                                <td>19</td>
+                                <td>18</td>
+                                <td>55</td>
+                                <td>92</td>
+                                <td>A</td>
+                                <td>Very Good</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Summary Section -->
+                <div class="summary-section">
+                    <h2 class="result-section-title">Performance Summary</h2>
+                    
+                    <div class="result-summary-grid">
+                        <div class="result-summary-card">
+                            <div class="result-summary-title">Total Score</div>
+                            <div class="result-summary-value">642</div>
+                            <div class="result-info-item">Out of 700</div>
+                        </div>
+                        
+                        <div class="result-summary-card">
+                            <div class="result-summary-title">Average Score</div>
+                            <div class="result-summary-value">91.7%</div>
+                            <div class="result-info-item">Class Avg: 85.2%</div>
+                        </div>
+                        
+                        <div class="result-summary-card">
+                            <div class="result-summary-title">Position</div>
+                            <div class="result-summary-value">3rd</div>
+                            <div class="result-info-item">Out of 42 students</div>
+                        </div>
+                    </div>
+                    
+                    <div class="result-comments-section">
+                        <div class="result-comment-box">
+                            <div class="result-comment-title">Teacher's Comment</div>
+                            <p>Emily has shown remarkable improvement this term. Her performance in Mathematics and Computer Studies is outstanding. She participates actively in class and collaborates well with peers.</p>
+                            <div class="result-signature-area">
+                                <div class="result-signature-line"></div>
+                                <div class="result-signature-label">Teacher's Signature</div>
+                            </div>
+                        </div>
+                        
+                        <div class="result-comment-box">
+                            <div class="result-comment-title">Principal's Comment</div>
+                            <p>Excellent overall performance. Emily is a model student who demonstrates leadership qualities and academic excellence. Keep up the great work!</p>
+                            <div class="result-signature-area">
+                                <div class="result-signature-line"></div>
+                                <div class="result-signature-label">Principal's Signature</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="result-info-item" style="text-align: center; margin-top: 20px;">
+                        <span class="result-info-label">Next Term Begins:</span> September 5, 2025
+                    </div>
+                    
+                    <div class="result-footer-note">
+                        This result sheet is computer generated and does not require a stamp. For any inquiries, please contact the school administration.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-actions">
+                <button class="modal-btn print-btn" onclick="printResult()">
+                    <span>🖨️</span> Print Result
+                </button>
+                <button class="modal-btn print-btn" onclick="downloadPDF()">
+        <span>⬇️</span> Download PDF
+    </button>
+                <button class="modal-btn close-btn" onclick="closeResultModal()">
+                    <span>✕</span> Close
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <script>
+        function downloadPDF() {
+    const element = document.querySelector('.result-container'); // Content to export
+    
+    // PDF options
+    const opt = {
+        margin:       0.5,
+        filename:     'Student_Result_Sheet.pdf',
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2 },
+        jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+    };
+    
+    html2pdf().set(opt).from(element).save();
+
+}
+        // Modal functions
+        const resultModal = document.getElementById('resultModal');
+        
+        function openResultModal() {
+            resultModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeResultModal() {
+            resultModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+        
+        function printResult() {
+            window.print();
+        }
+        
+        // Close modal when clicking outside content
+        resultModal.addEventListener('click', (e) => {
+            if (e.target === resultModal) {
+                closeResultModal();
+            }
+        });
+        
+        // Close modal with ESC key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && resultModal.classList.contains('active')) {
+                closeResultModal();
+            }
+        });
+    </script>
+</body>
+</html>
+

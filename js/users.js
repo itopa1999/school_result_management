@@ -77,27 +77,45 @@ document.getElementById('createUserForm').addEventListener('submit', async funct
 
     if (!email) return alert('Please enter an email.');
 
-    const response = await fetch(`${ADMIN_BASE_URL}/school/users/create/`, {
-        method: 'POST',
-        headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email }),
-    });
+    const submitButton = document.getElementById("submitBtn");
+    const submitSpinner = document.getElementById("submitSpinner");
 
-    if (response.ok) {
-        showAlert('success','✅ User created successfully')
-        // Success: refresh user list and reset form
-        const modal = bootstrap.Modal.getInstance(document.getElementById('createUserModal'));
-        modal.hide();  // Close the modal
+    submitButton.disabled = true;
+    submitSpinner.classList.remove("d-none");
+    
+    try{
+        const response = await fetch(`${ADMIN_BASE_URL}/school/users/create/`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email }),
+        });
 
-        emailInput.value = ''; // Clear input
-        fetchData(); // Refresh user list (make sure this function is defined)
-    } else {
-        const errorData = await response.json();
-        showAlert('error','❌ Failed to create user: ' + (errorData.detail || 'Unknown error'));
-    }
+        submitButton.disabled = false;
+        submitSpinner.classList.add("d-none");
+
+        if (response.ok) {
+            showAlert('success','✅ User created successfully')
+            // Success: refresh user list and reset form
+            const modal = bootstrap.Modal.getInstance(document.getElementById('createUserModal'));
+            modal.hide();  // Close the modal
+
+            emailInput.value = ''; // Clear input
+            fetchData(); // Refresh user list (make sure this function is defined)
+        } else {
+            const errorData = await response.json();
+            showAlert('error','❌ Failed to create user: ' + (errorData.error || 'Unknown error'));
+        }
+    }catch (error) {
+        showAlert('error', '❌ Error creating user');
+        console.log(error)
+    } finally {
+            submitButton.disabled = false;
+            submitSpinner.classList.add("d-none");
+        }
+    
 });
 
 

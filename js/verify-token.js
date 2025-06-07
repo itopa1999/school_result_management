@@ -54,7 +54,8 @@ window.onload = function() {
         localStorage.setItem("constant_user_id", data.id);
         localStorage.setItem("constant_is_admin", data.is_admin);
         localStorage.setItem("constant_is_manager", data.is_manager);
-        
+        localStorage.setItem("constant_school_name", data.school_info.school_name);
+        localStorage.setItem("constant_school_location", data.school_info.location);
         localStorage.setItem("constant_profilePicture", data.profile_pic);
         showAlert('success','✅ ' +data.message);
         localStorage.removeItem('constant_email');

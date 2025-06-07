@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/results.css">
+    <style>
+        
+
+
+    </style>
+
+</head>
+<body>
+    <div class="app-container">
+        <!-- Overlay for Mobile -->
+        <div class="overlay"></div>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="brand-icon">
+                    <i class="fas fa-leaf"></i>
+                </div>
+                <div class="brand">EcoVision</div>
+                <div class="school-name" id="schoolNameDisplay"></div>
+            </div>
+            
+            <div class="greeting">
+                <h5 id="timeGreeting">Good Morning, Admin!</h5>
+                <small class="text-mute" id="currentDate">Monday, June 10, 2023</small>
+            </div>
+            
+            <div class="nav-links" id="navContainer">
+                
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <button class="menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+
+                <div class="header-right">
+                    <div class="user-dropdown">
+                        <button class="user-btn">
+                            <img src="" id="profilePic" class="user-avatar"></img>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+
+                        <div class="dropdown-menu">
+                            <a href="#" class="dropdown-item">
+                                <i class="fas fa-bell"></i>
+                                <span>Notifications</span>
+                            </a>
+                            <a href="#" id="ChangePassword" class="dropdown-item">
+                                <i class="fas fa-lock"></i>
+                                <span>Change Password</span>
+                            </a>
+                            <a href="#" class="dropdown-item">
+                                <i class="fas fa-moon"></i>
+                                <span>Dark Mode</span>
+                                <div class="dark-mode-toggle" id="darkModeToggle">
+                                    <div class="toggle-circle"></div>
+                                </div>
+                            </a>
+                            <a href="#" id="logoutUser" class="dropdown-item">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Logout</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <div class="page-content">
+  <h4 class="fw-bold  mb-4" id="subscriptionHistory">Manage Results</h4>
+    <div class="d-flex justify-content-between align-items-center flex-wrap mb-3">
+          <input
+            type="text"
+            class="form-control form-control-sm w-auto"
+            placeholder="Search student..."
+            id="searchInput" />
+        </div>
+  <div class="g-4" id="studentsContainer">
+    
+
+    </div>
+
+    <div class="d-flex justify-content-center gap-3 mt-3">
+    <button id="prevBtn" class="btn btn-primary" disabled>
+        <span id="prevSpinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+         <i class="fas fa-arrow-left"></i> Prev
+    </button>
+    <button id="nextBtn" class="btn btn-primary" disabled>
+        <span id="nextSpinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+        Next <i class="fas fa-arrow-right"></i>
+    </button>
+    </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="uploadStudentResultModal" tabindex="-1" aria-labelledby="uploadStudentModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form method="POST" id="upload-result" enctype="multipart/form-data">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="uploadStudentModalLabel"></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+            <p>
+            Please upload student result via Excel file.<br>
+            If you don't have the student result file, please 
+            <strong>download the template below</strong>:
+            </p>            
+            <a id="download-template" class="btn btn-outline-secondary submitBtn1 mb-3" download>
+                <i class="fas fa-download me-1"></i> Download student result 
+                <span class="spinner-border spinner-border-sm d-none" id="submitSpinner1" role="status" aria-hidden="true"></span>
+            </a>
+
+            <input type="hidden" id="uploadStudentId" name="student_id" value="">
+
+            <div class="mb-3">
+                <label for="teacherComment" class="form-label fw-semibold text-medium">Teacher Comment</label>
+                <input type="text" class="form-control" id="teacherComment" placeholder="">
+            </div>
+            <div class="mb-3">
+                <label for="principalComment" class="form-label fw-semibold text-medium">Principal Comment</label>
+                <input type="text" class="form-control" id="principalComment" placeholder="">
+            </div>
+
+            <div class="mb-3">
+                <label for="excelFile" class="form-label">Upload Excel File</label>
+                <input class="form-control" type="file" name="file" id="excelFile" accept=".xlsx" required>
+            </div>
+            </div>
+
+            <div class="modal-footer">
+            <button type="submit" id="submitBtn2" class="btn btn-green"><i class="fas fa-upload"></i>
+              Upload 
+              <span class="spinner-border spinner-border-sm d-none" id="submitSpinner2" role="status" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+        </form>
+    </div>
+    </div>
+
+
+    <div class="modal fade" id="previewUploadModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title">Preview Uploaded Student Result</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div id="previewInfo" class="mb-3"></div>
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover">
+            <thead class="table-light">
+              <tr>
+                <th>#</th>
+                <th>Subject</th>
+                <th>CA1</th>
+                <th>CA2</th>
+                <th>CA3</th>
+                <th>Exam</th>
+                <th>Feedback</th>
+            </tr>
+            </thead>
+            <tbody id="previewStudentsTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer justify-content-between">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button id="confirmUploadBtn" class="btn btn-green submitBtn3">Confirm Upload 
+          <span class="spinner-border spinner-border-sm d-none" id="submitSpinner3" role="status" aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="resultModal">
+        <div class="result-modal">
+            <div class="close-modal" onclick="closeResultModal()">×</div>
+            
+            <div class="result-container">
+                <!-- Header Section -->
+                <div class="result-header">
+                    <h1 class="result-school-name">null</h1>
+                    <div class="result-school-info">null</div>
+                    
+                    <div class="result-student-info">
+                        
+                    </div>
+                </div>
+                
+                <!-- Results Section -->
+                <div class="results-section">
+                    <h2 class="result-section-title">Academic Performance</h2>
+                    
+                    <table class="result-table">
+                        <thead>
+                            <tr>
+                                <th>Subject</th>
+                                <th>CA1</th>
+                                <th>CA2</th>
+                                <th>CA3</th>
+                                <th>Exam</th>
+                                <th>Total</th>
+                                <th>Grade</th>
+                                <th>Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                           
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Summary Section -->
+                <div class="summary-section">
+                    <h2 class="result-section-title">Performance Summary</h2>
+                    
+                    <div class="result-summary-grid">
+                        <div class="result-summary-card">
+                            <div class="result-summary-title">Total Score</div>
+                            <div class="result-summary-value">0</div>
+                            <div class="result-info-item">0</div>
+                        </div>
+                        
+                        <div class="result-summary-card">
+                            <div class="result-summary-title">Average Score</div>
+                            <div class="result-summary-value">0%</div>
+                            <div class="result-info-item">Class Avg: 0%</div>
+                        </div>
+                        
+                        <div class="result-summary-card">
+                            <div class="result-summary-title">Position</div>
+                            <div class="result-summary-value">0rd</div>
+                            <div class="result-info-item">Out of 0 students</div>
+                        </div>
+                    </div>
+                    
+                    <div class="result-comments-section">
+                        <div class="result-comment-box">
+                            <div class="result-comment-title">Teacher's Comment</div>
+                            <p id="commentTeacher">null</p>
+                            <div class="result-signature-area">
+                                <div class="result-signature-line"></div>
+                                <div class="result-signature-label">Teacher's Signature</div>
+                            </div>
+                        </div>
+                        
+                        <div class="result-comment-box">
+                            <div class="result-comment-title">Principal's Comment</div>
+                            <p id="commentPrincipal">null</p>
+                            <div class="result-signature-area">
+                                <div class="result-signature-line"></div>
+                                <div class="result-signature-label">Principal's Signature</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="result-info-item" style="text-align: center; margin-top: 20px;">
+                        <span class="result-info-label">Next Term Begins:</span> September 5, 2025
+                    </div>
+                    
+                    <div class="result-footer-note">
+                        This result sheet is computer generated and does not require a stamp. For any inquiries, please contact the school administration.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-actions">
+                <button class="modal-btn print-btn" onclick="printResult()">
+                    <span>🖨️</span> Print Result
+                </button>
+                <button class="modal-btn print-btn" onclick="downloadPDF()">
+        <span>⬇️</span> Download PDF
+    </button>
+                <button class="modal-btn close-btn" onclick="closeResultModal()">
+                    <span>✕</span> Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+            <footer class="footer">
+                <div class="container">
+                    <span>&copy; 2023 School Management System | All rights reserved</span>
+                </div>
+            </footer>
+
+            <div class="custom-alert" id="customAlert">
+        <div class="alert-progress" id="alertProgress"></div>
+        <span class="alert-content" id="alertContent"></span>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <script src="js/main.js"></script>
+    <script src="js/result.js"></script>
+    <script>
+        
+    </script>
+</body>
+</html>

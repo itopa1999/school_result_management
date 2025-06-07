@@ -24,8 +24,8 @@ async function fetchSubjects() {
         
         renderSubjects(data);
     } catch (error) {
-        showAlert('error','❌ Error fetching dashboard info:', error);
-        console.error('error','❌ Error fetching dashboard info:', error);
+        showAlert('error','❌ Error fetching subjects info:', error);
+        console.error('error','❌ Error fetching subjects info:', error);
     }
 }
 
@@ -40,8 +40,10 @@ function renderSubjects(subjects) {
         item.innerHTML = `
             <span>${index + 1}</span><input type="text" class="form-control flex-grow-1" value="${subject.name}" id="input-${subject.id}">
             <div class="btn-group">
-                <button class="btn btn-primary btn-sm" onclick="editSubject(${subject.id})">Edit</button>
-                <button class="btn btn-danger btn-sm" onclick="deleteSubject(${subject.id})">Delete</button>
+                <button class="btn btn-primary" id="edit-subjectBtn-${subject.id}" btn-sm" onclick="editSubject(${subject.id})">
+                 <i class="fas fa-edit"></i>Edit
+                <span class="spinner-border spinner-border-sm d-none" id="edit-subjectSpinner-${subject.id}" role="status" aria-hidden="true"></span>
+                </button>
             </div>
         `;
 
@@ -60,6 +62,11 @@ document.getElementById('addSubjectForm').addEventListener('submit', async funct
         showAlert('error', '❌ Subject name cannot be empty.');
         return;
     }
+    const submitButton = document.getElementById("submitBtn");
+    const submitSpinner = document.getElementById("submitSpinner");
+
+    submitButton.disabled = true;
+    submitSpinner.classList.remove("d-none");
 
     try {
         const response = await fetch(`${ADMIN_BASE_URL}/subjects/`, {
@@ -71,10 +78,13 @@ document.getElementById('addSubjectForm').addEventListener('submit', async funct
             body: JSON.stringify({ name })
         });
 
-        const data = await response.json();
+        submitButton.disabled = false;
+        submitSpinner.classList.add("d-none");
 
+        const data = await response.json();
+        console.log(data)
         if (!response.ok) {
-            showAlert('error', '❌ Failed to add subjects:', data.error);
+            showAlert('error', '❌ Failed to add subjects: ' + data.error);
             return;
         }
 
@@ -97,6 +107,9 @@ document.getElementById('addSubjectForm').addEventListener('submit', async funct
     } catch (error) {
         console.error(error);
         showAlert('error', '❌ An error occurred while adding the subject.');
+    } finally {
+        submitButton.disabled = false;
+        submitSpinner.classList.add("d-none");
     }
 });
 
@@ -106,20 +119,38 @@ async function editSubject(id) {
     const input = document.getElementById(`input-${id}`);
     const newName = input.value;
 
-    const response = await fetch(`${ADMIN_BASE_URL}/subject/${id}/`, {
-        method: 'PUT',
-        headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ name: newName })
-    });
+    const submitButton2 = document.getElementById(`edit-subjectBtn-${id}`);
+    const submitSpinner2 = document.getElementById(`edit-subjectSpinner-${id}`);
 
-    if (!response.ok) {
-        showAlert('error','❌ Failed to update subject.');
-        return;
+    submitButton2.disabled = true;
+    submitSpinner2.classList.remove("d-none");
+
+    try{
+      const response = await fetch(`${ADMIN_BASE_URL}/subject/${id}/`, {
+          method: 'PUT',
+          headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ name: newName })
+      });
+
+      submitButton2.disabled = false;
+      submitSpinner2.classList.add("d-none");
+
+      if (!response.ok) {
+          showAlert('error','❌ Failed to update subject.');
+          return;
+      }
+      showAlert('success','✅ Subject updated successfully!');
+
+    } catch (error) {
+        console.error(error);
+        showAlert('error', '❌ An error occurred while edit subject.');
+    } finally {
+        submitButton2.disabled = false;
+        submitSpinner2.classList.add("d-none");
     }
-    showAlert('success','✅ Subject updated successfully!');
 
 }
 
@@ -205,16 +236,16 @@ function displayGradings(gradings) {
       <input type="text" maxlength="255" value="${g.remark}" id="grading-remark-${index}" class="form-control w-40 grading-remark" />
     </div>
 
-        <button class="btn btn-success btn-sm">Save</button>
-      <button class="btn btn-danger btn-sm">Delete</button>
+    <button class="btn btn-success" id="edit-gradingBtn-${g.id}" btn-sm""><i class="fas fa-save"></i> Save Changes
+                <span class="spinner-border spinner-border-sm d-none" id="edit-gradingSpinner-${g.id}" role="status" aria-hidden="true"></span>
+    </button>
+        
       <hr>
     `;
 
     // Save handler
     item.querySelector('.btn-success').onclick = () => updateGrading(g.id, item);
 
-    // Delete handler
-    item.querySelector('.btn-danger').onclick = () => deleteGrading(g.id);
 
     list.appendChild(item);
   });
@@ -227,6 +258,12 @@ async function updateGrading(id, item) {
   const grade = item.querySelector('.grading-grade').value.trim();
   const remark = item.querySelector('.grading-remark').value.trim();
 
+  const submitButton3 = document.getElementById(`edit-gradingBtn-${id}`);
+  const submitSpinner3 = document.getElementById(`edit-gradingSpinner-${id}`);
+
+  submitButton3.disabled = true;
+  submitSpinner3.classList.remove("d-none");
+
   try {
     const response = await fetch(`${ADMIN_BASE_URL}/grade/${id}/`, {
       method: 'PUT',
@@ -236,6 +273,10 @@ async function updateGrading(id, item) {
       },
       body: JSON.stringify({ min_score, max_score, grade, remark })
     });
+
+    submitButton3.disabled = false;
+    submitSpinner3.classList.add("d-none");
+
     if (response.status === 401) {
         window.location.href = 'auth.html';
         return;
@@ -249,7 +290,10 @@ async function updateGrading(id, item) {
     fetchGradings();
   } catch (error) {
     showAlert('error', `❌ Error updating grading: ${error.message}`);
-  }
+  } finally {
+        submitButton3.disabled = false;
+        submitSpinner3.classList.add("d-none");
+    }
 }
 
 // Delete grading via DELETE
@@ -279,11 +323,20 @@ async function deleteGrading(id) {
 document.getElementById('addGradingForm').addEventListener('submit', async (e) => {
   e.preventDefault();
 
+
+
   const form = e.target;
   const min_score = form.min_score.value.trim();
   const max_score = form.max_score.value.trim();
   const grade = form.grade.value.trim();
   const remark = form.remark.value.trim();
+
+  const submitButton1 = document.getElementById("submitBtn1");
+  const submitSpinner1 = document.getElementById("submitSpinner1");
+
+  submitButton1.disabled = true;
+  submitSpinner1.classList.remove("d-none");
+
 
   try {
     const response = await fetch(`${ADMIN_BASE_URL}/grades/`, {
@@ -294,6 +347,9 @@ document.getElementById('addGradingForm').addEventListener('submit', async (e) =
       },
       body: JSON.stringify({ min_score, max_score, grade, remark })
     });
+
+    submitButton1.disabled = false;
+    submitSpinner1.classList.add("d-none");
 
     if (response.ok) {
       showAlert('success', '✅ Grading added successfully');
@@ -306,8 +362,101 @@ document.getElementById('addGradingForm').addEventListener('submit', async (e) =
     }
   } catch (error) {
     showAlert('error', `❌ Error adding grading: ${error.message}`);
-  }
+  } finally {
+        submitButton1.disabled = false;
+        submitSpinner1.classList.add("d-none");
+    }
 });
 
 // Initial fetch on page load or tab show
 fetchGradings();
+
+
+async function fetchSchoolInfo() {
+    try {
+        const response = await fetch(`${ADMIN_BASE_URL}/school-info/`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        })
+
+        if (response.status === 401) {
+            window.location.href = 'auth.html';
+            return;
+        }
+
+        if (!response.ok) {
+            showAlert('error', '❌ Failed to fetch school info:', response.statusText);
+            return;
+        }
+
+        const data = await response.json();
+        console.log(data)
+        document.getElementById('schoolName').value = data.school.school_name || 'Not Set';
+        document.getElementById('schoolAddress').value = data.school.school_address || 'Not set';
+        
+    } catch (error) {
+        showAlert('error','❌ Error fetching school info:', error);
+        console.error('error','❌ Error fetching school info:', error);
+    }
+}
+
+
+document.getElementById('schoolProfileForm').addEventListener('submit', async function(event) {
+      event.preventDefault();
+
+      const schoolName = document.getElementById('schoolName').value;
+      const schoolAddress = document.getElementById('schoolAddress').value;
+
+      const data = {
+        school_name: schoolName,
+        school_address: schoolAddress
+      };
+
+      const submitButton4 = document.getElementById("submitBtn4");
+      const submitSpinner4 = document.getElementById("submitSpinner4");
+
+      submitButton4.disabled = true;
+      submitSpinner4.classList.remove("d-none");
+
+      try{
+        const response = await fetch(`${ADMIN_BASE_URL}/school-info/update/`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          },
+          body: JSON.stringify(data)
+        })
+        submitButton4.disabled = false;
+        submitSpinner4.classList.add("d-none");
+
+        if (response.status === 401) {
+            window.location.href = 'auth.html';
+            return;
+        }
+
+        if (!response.ok) {
+            showAlert('error', '❌ Failed to fetch school info:', response.statusText);
+            return;
+        }
+
+        const responseData = await response.json();
+        showAlert('success', '✅ School info updated successfully');
+        fetchSchoolInfo();
+
+
+
+      } catch(error) {
+        console.error('Error updating school profile:', error);
+        showAlert('error', '❌ Failed to update school profile.');
+      }finally {
+        submitButton4.disabled = false;
+        submitSpinner4.classList.add("d-none");
+    }
+
+    })
+
+fetchSchoolInfo()

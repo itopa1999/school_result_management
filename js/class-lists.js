@@ -175,6 +175,11 @@ function populateStudentsTable(students) {
       document.getElementById('editStudentOtherInfo').classList.remove('is-invalid');
     }
 
+    const submitButton4 = document.getElementById("submitBtn4");
+    const submitSpinner4 = document.getElementById("submitSpinner4");
+
+    submitButton4.disabled = true;
+    submitSpinner4.classList.remove("d-none");
     try {
       const res = await fetch(`${ADMIN_BASE_URL}/students/${studentId}/`, {
         method: 'PUT',
@@ -184,6 +189,8 @@ function populateStudentsTable(students) {
         },
         body: JSON.stringify({ name: updatedName, other_info: updatedOtherInfo }),
       });
+      submitButton4.disabled = false;
+      submitSpinner4.classList.add("d-none");
       if (!res.ok) throw new Error('Failed to update student');
       alert('Student updated successfully');
       bootstrap.Modal.getInstance(document.getElementById('editStudentModal')).hide();
@@ -191,6 +198,9 @@ function populateStudentsTable(students) {
       openStudentsModal(currentLevelId);
     } catch (error) {
       alert(error.message);
+    }finally {
+        submitButton4.disabled = false;
+        submitSpinner4.classList.add("d-none");
     }
   });
 
@@ -199,12 +209,21 @@ function populateStudentsTable(students) {
 
 
 document.getElementById('download-template').addEventListener('click', async  function() {
+
+  const submitButton2 = document.getElementsByClassName(".submitBtn2");
+  const submitSpinner2 = document.getElementById("submitSpinner2");
+
+  submitButton2.disabled = true;
+  submitSpinner2.classList.remove("d-none");
   try {
     const response = await fetch(`${ADMIN_BASE_URL}/download/students-upload-template/`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
     });
+
+    submitButton2.disabled = false;
+    submitSpinner2.classList.add("d-none");
 
     if (response.status === 401) {
         window.location.href = 'auth.html';
@@ -243,7 +262,10 @@ document.getElementById('download-template').addEventListener('click', async  fu
   } catch (error) {
     showAlert('error', '❌ Error:', error);
     console.error('Error:', error);
-  }
+  }finally {
+        submitButton2.disabled = false;
+        submitSpinner2.classList.add("d-none");
+    }
 
 });
 
@@ -270,6 +292,13 @@ document.querySelector('#uploadStudentModal form').addEventListener('submit', as
   const form = event.target;
   const formData = new FormData(form);
 
+  const submitButton = document.getElementById("submitBtn");
+  const submitSpinner = document.getElementById("submitSpinner");
+
+  submitButton.disabled = true;
+  submitSpinner.classList.remove("d-none");
+
+
   try {
     const response = await fetch(`${ADMIN_BASE_URL}/preview-upload/`, {
       method: 'POST',
@@ -278,6 +307,9 @@ document.querySelector('#uploadStudentModal form').addEventListener('submit', as
       },
       body: formData
     });
+
+    submitButton.disabled = false;
+    submitSpinner.classList.add("d-none");
 
     if (response.status === 401) {
       window.location.href = 'auth.html';
@@ -329,7 +361,10 @@ document.querySelector('#uploadStudentModal form').addEventListener('submit', as
   } catch (error) {
     showAlert('error','❌ Error: ' + error.message);
     console.error(error);
-  }
+  }finally {
+        submitButton.disabled = false;
+        submitSpinner.classList.add("d-none");
+    }
 });
 
 
@@ -341,6 +376,12 @@ document.getElementById('confirmUploadBtn').addEventListener('click', async () =
     return;
   }
 
+  const submitButton1 = document.getElementsByClassName(".submitBtn1");
+  const submitSpinner1 = document.getElementById("submitSpinner1");
+
+  submitButton1.disabled = true;
+  submitSpinner1.classList.remove("d-none");
+
   try {
     const response = await fetch(`${ADMIN_BASE_URL}/upload-students/`, {
       method: 'POST',
@@ -350,6 +391,9 @@ document.getElementById('confirmUploadBtn').addEventListener('click', async () =
       },
       body: JSON.stringify(payload)
     });
+
+    submitButton1.disabled = false;
+    submitSpinner1.classList.add("d-none");
 
     const data = await response.json();
 
@@ -374,13 +418,16 @@ document.getElementById('confirmUploadBtn').addEventListener('click', async () =
   } catch (error) {
     showAlert('error', '❌ Error: ' + error.message);
     console.error(error);
-  }
+  }finally {
+        submitButton1.disabled = false;
+        submitSpinner1.classList.add("d-none");
+    }
 });
 
 
 async function previewStudentResult(studentId) {
   try {
-    const res = await fetch(`${ADMIN_BASE_URL}/results/${studentId}/${currentTermId}/${currentSessionId}/`, {
+    const res = await fetch(`${ADMIN_BASE_URL}/results/${studentId}/`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -420,6 +467,7 @@ async function previewStudentResult(studentId) {
               <th>Exam</th>
               <th>Total</th>
               <th>Grade</th>
+              <th>Remark</th>
             </tr>
           </thead>
           <tbody>
@@ -443,6 +491,7 @@ async function previewStudentResult(studentId) {
             <td>${result.exam}</td>
             <td class="fw-bold">${result.total_score}</td>
             <td><span class="badge bg-secondary">${result.grade}</span></td>
+            <td><span class="badge bg-secondary">${result.remark}</span></td>
           </tr>
         `;
       }
@@ -507,12 +556,20 @@ document.getElementById("searchInput").addEventListener("input", function () {
 
 // Download single item report
 document.getElementById("exportStudents").addEventListener("click", async function () {
+  const submitButton3 = document.getElementsByClassName(".submitBtn3");
+  const submitSpinner3 = document.getElementById("submitSpinner3");
+
+  submitButton3.disabled = true;
+  submitSpinner3.classList.remove("d-none");
   try {
     const res = await fetch(`${ADMIN_BASE_URL}/download/all-students/`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
     });
+
+    submitButton3.disabled = false;
+    submitSpinner3.classList.add("d-none");
 
     if (!res.ok) {
       const data = await res.json();
@@ -531,5 +588,8 @@ document.getElementById("exportStudents").addEventListener("click", async functi
     window.URL.revokeObjectURL(url);
   } catch (error) {
     showAlert('error', `❌ ${error.message}`);
-  }
+  }finally {
+        submitButton3.disabled = false;
+        submitSpinner3.classList.add("d-none");
+    }
 });

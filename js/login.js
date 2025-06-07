@@ -37,6 +37,8 @@ document.querySelector(".login-form").addEventListener("submit", async function 
         localStorage.setItem("constant_is_admin", data.is_admin);
         localStorage.setItem("constant_is_manager", data.is_manager);
         localStorage.setItem("constant_profilePicture", data.profile_pic);
+        localStorage.setItem("constant_school_name", data.school_info.school_name);
+        localStorage.setItem("constant_school_location", data.school_info.location);
         document.querySelector(".login-form").reset();
         window.location.href = "index.html";
         

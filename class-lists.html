@@ -123,7 +123,7 @@
                 <div class="header-right">
                     <div class="user-dropdown">
                         <button class="user-btn">
-                            <div class="user-avatar">JD</div>
+                            <img src="" id="profilePic" class="user-avatar"></img>
                             <i class="fas fa-chevron-down"></i>
                         </button>
 
@@ -157,8 +157,9 @@
                   <i class="fas fa-plus-circle me-2"></i> Add Students
                 </button>
                 
-                <button class="btn custom-btn fw-semibold" id="exportStudents">
-                  <i class="fas fa-file-excel me-1"></i> Export Excel
+                <button class="btn custom-btn submitBtn3 fw-semibold" id="exportStudents">
+                  <i class="fas fa-file-excel me-1"></i> Export Excel 
+                  <span class="spinner-border spinner-border-sm d-none" id="submitSpinner3" role="status" aria-hidden="true"></span>
                 </button>
               </div>
 
@@ -261,7 +262,9 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button type="submit" class="btn btn-green">Save Changes</button>
+            <button type="submit" id="submitBtn4" class="btn btn-green"> <i class="fa fa-save"></i> Save Changes 
+              <span class="spinner-border spinner-border-sm d-none" id="submitSpinner4" role="status" aria-hidden="true"></span>
+            </button>
         </div>
         </form>
     </div>
@@ -279,8 +282,9 @@
 
             <div class="modal-body">
             <p>Please upload students via Excel file. If you don't have the template, click below to download:</p>
-            <a id="download-template" class="btn btn-outline-secondary mb-3" download>
-                <i class="fas fa-download me-1"></i> Download Template
+            <a id="download-template" class="btn btn-outline-secondary submitBtn2 mb-3" download>
+                <i class="fas fa-download me-1"></i> Download Template 
+                <span class="spinner-border spinner-border-sm d-none" id="submitSpinner2" role="status" aria-hidden="true"></span>
             </a>
 
             <div class="mb-3">
@@ -298,7 +302,10 @@
             </div>
 
             <div class="modal-footer">
-            <button type="submit" class="btn btn-green">Upload</button>
+            <button type="submit" id="submitBtn" class="btn btn-green"><i class="fas fa-upload"></i>
+              Upload 
+              <span class="spinner-border spinner-border-sm d-none" id="submitSpinner" role="status" aria-hidden="true"></span>
+            </button>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
             </div>
         </div>
@@ -347,7 +354,9 @@
       </div>
       <div class="modal-footer justify-content-between">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-        <button id="confirmUploadBtn" class="btn btn-primary">Confirm Upload</button>
+        <button id="confirmUploadBtn" class="btn btn-primary submitBtn">Confirm Upload 
+          <span class="spinner-border spinner-border-sm d-none" id="submitSpinner1" role="status" aria-hidden="true"></span>
+        </button>
       </div>
     </div>
   </div>

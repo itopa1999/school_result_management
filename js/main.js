@@ -7,9 +7,12 @@ const MANAGER_BASE_URL = "http://127.0.0.1:8000/backend/api";
 // FETCH USER DETAILS
 const profilePicture = localStorage.getItem('constant_profilePicture');
 const token = localStorage.getItem('constant_token');
-const is_admin = localStorage.getItem('constant_is_admin');
-const is_manager = localStorage.getItem('constant_is_manager');
+const is_admin = localStorage.getItem('constant_is_admin') === 'true';
+const is_manager = localStorage.getItem('constant_is_manager') === 'true';
+const school_name = localStorage.getItem('constant_school_name');
+const school_location = localStorage.getItem('constant_school_location');
 
+document.getElementById("schoolNameDisplay").innerHTML = school_name;
 
 const navContainer = document.getElementById("navContainer");
 
@@ -30,6 +33,12 @@ const adminNav = `
         <a href="class-lists.html" class="nav-link ">
             <i class="fas fa-chalkboard"></i>
             <span>Classes</span>
+        </a>
+    </div>
+    <div class="nav-item">
+        <a href="results.html" class="nav-link ">
+            <i class="fas fa-chalkboard"></i>
+            <span>Manage Results</span>
         </a>
     </div>
     <div class="nav-item">
@@ -60,33 +69,21 @@ const managerNav = `
         </a>
     </div>
     <div class="nav-item">
-        <a href="session-lists.html" class="nav-link ">
-            <i class="fas fa-users-cog "></i>
-            <span>Manage Sessions</span>
-        </a>
-    </div>
-    <div class="nav-item">
         <a href="class-lists.html" class="nav-link ">
             <i class="fas fa-chalkboard"></i>
             <span>Classes</span>
         </a>
     </div>
     <div class="nav-item">
+        <a href="results.html" class="nav-link ">
+            <i class="fas fa-chalkboard"></i>
+            <span>Manage Results</span>
+        </a>
+    </div>
+    <div class="nav-item">
         <a href="#" class="nav-link ">
             <i class="fas fa-credit-card"></i>
             <span>Subscription</span>
-        </a>
-    </div>
-    <div class="nav-item">
-        <a href="#" class="nav-link ">
-            <i class="fas fa-users-cog"></i>
-            <span>Manage Users</span>
-        </a>
-    </div>
-    <div class="nav-item">
-        <a href="settings.html" class="nav-link ">
-            <i class="fas fa-chart-bar"></i>
-            <span>Settings</span>
         </a>
     </div>
 `;
@@ -101,11 +98,11 @@ if (is_admin) {
 }
 
 
-// if (profilePicture) {
-//     document.getElementById('profilePic').src = profilePicture;
-// }else{
-//     document.getElementById('profilePic').src = "/img/l8.jpeg";
-// }
+if (profilePicture) {
+    document.getElementById('profilePic').src = profilePicture;
+}else{
+    document.getElementById('profilePic').src = "/img/l8.jpeg";
+}
 
 
 document.getElementById('logoutUser').addEventListener('click', function() {
@@ -291,8 +288,10 @@ function RemoveAccessFromLocalStorage(){
     localStorage.removeItem("constant_token");
     localStorage.removeItem("constant_profilePicture");
     localStorage.removeItem("constant_user_id");
-    localStorage.setItem("constant_is_admin", false);
-    localStorage.setItem("constant_is_manager", false);
+    localStorage.removeItem('constant_school_name');
+    localStorage.removeItem('constant_school_location');
+    localStorage.removeItem("constant_is_admin");
+    localStorage.removeItem("constant_is_manager");
 }
 
 function restrictPageAccess(options) {
@@ -365,7 +364,13 @@ function updateDateTime() {
         greeting = 'Good Evening 🌙';
     }
     
+    if (is_admin) {
     document.getElementById('timeGreeting').textContent = greeting + ', Admin!';
+    } else if (is_manager) {
+    document.getElementById('timeGreeting').textContent = greeting + ', Manager!';
+    } else {
+    document.getElementById('timeGreeting').textContent = greeting + ', Anonymous!';
+    }
 }
 
 // Initialize
@@ -396,36 +401,6 @@ document.querySelectorAll('.nav-link').forEach(link => {
     });
 });
 
-let currentSessionId = null;
-let currentTermId = null;
-
-async function fetchMainInfo() {
-  try {
-    const response = await fetch(`${ADMIN_BASE_URL}/main/info/`, {
-        method: "GET",
-        headers: {
-            'Authorization': `Bearer ${token}`,
-        },
-    });
-    if (!response.ok) {
-      throw new Error("Failed to fetch main info");
-    }
-
-    const data = await response.json();
-
-    currentSessionId = data.current_session_id;
-    currentTermId = data.current_term_id;
-
-    // Optional: update HTML or variables in your app
-    document.getElementById("schoolNameDisplay").innerHTML = data.school_name;
-
-  } catch (error) {
-    console.error("Error fetching main info:", error);
-  }
-}
-
-// Call the function
-fetchMainInfo();
 
 
 const currentPath = window.location.pathname.split("/").pop();
