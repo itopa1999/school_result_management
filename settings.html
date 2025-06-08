@@ -10,6 +10,7 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="img/icon.jpg" type="image/jpg" />
     <style>
       .modern-tabs-container .nav-tabs {
             border-bottom: none;
@@ -131,10 +132,10 @@
         <!-- Sidebar -->
         <div class="sidebar">
             <div class="sidebar-header">
-                <div class="brand-icon">
-                    <i class="fas fa-leaf"></i>
+                <div class="and-icn">
+                    <img src="img/icon.jpg" class="brand-icon">
                 </div>
-                <div class="brand">EcoVision</div>
+                <div class="brand"><i class="fa-solid fa-star"></i> software</div>
                 <div class="school-name" id="schoolNameDisplay"></div>
             </div>
             
@@ -192,19 +193,19 @@
     <!-- Nav Tabs -->
     <ul class="nav nav-tabs px-3 pt-3" id="standardTab" role="tablist">
       <li class="nav-item" role="presentation">
-        <button class="nav-link active" id="subject-tab" data-bs-toggle="tab" data-bs-target="#subject"
+        <button class="nav-link text-secondary" id="subject-tab" data-bs-toggle="tab" data-bs-target="#subject"
           type="button" role="tab" aria-controls="subject" aria-selected="true">
           <i class="fas fa-book"></i> Subject
         </button>
       </li>
       <li class="nav-item" role="presentation">
-        <button class="nav-link" id="grading-tab" data-bs-toggle="tab" data-bs-target="#grading"
+        <button class="nav-link text-secondary" id="grading-tab" data-bs-toggle="tab" data-bs-target="#grading"
           type="button" role="tab" aria-controls="grading" aria-selected="false">
           <i class="fas fa-chart-line"></i> Grading
         </button>
       </li>
       <li class="nav-item" role="presentation">
-        <button class="nav-link" id="school-tab" data-bs-toggle="tab" data-bs-target="#school"
+        <button class="nav-link text-secondary" id="school-tab" data-bs-toggle="tab" data-bs-target="#school"
           type="button" role="tab" aria-controls="school" aria-selected="false">
           <i class="fas fa-school"></i> School Profile
         </button>
@@ -214,7 +215,7 @@
     <!-- Tab Content -->
     <div class="tab-content p-3 border border-top-0 rounded-bottom" id="standardTabContent">
       <div class="tab-pane fade show active" id="subject" role="tabpanel" aria-labelledby="subject-tab">
-        <h5>Subject</h5>
+        <h5 class="text-secondary">Subject</h5>
         <p>Display subjects metrics</p>
         <button class="btn btn-secondary m-3 btn-sm" data-bs-toggle="modal" data-bs-target="#addSubjectModal">
           <i class="fas fa-plus"></i> Add Subject</button>
@@ -222,7 +223,7 @@
       </div>
 
       <div class="tab-pane fade" id="grading" role="tabpanel" aria-labelledby="grading-tab">
-        <h5>Grading</h5>
+        <h5 class="text-secondary">Grading</h5>
         <p>Display grading metrics</p>
         <button type="button" class="btn btn-secondary m-3" data-bs-toggle="modal" data-bs-target="#addGradingModal">
           <i class="fas fa-plus"></i> Add Grading Range
@@ -231,7 +232,7 @@
       </div>
 
       <div class="tab-pane fade" id="school" role="tabpanel" aria-labelledby="school-tab">
-        <h5>School Profile</h5>
+        <h5 class="text-secondary">School Profile</h5>
         <form id="schoolProfileForm">
           <div class="mb-3">
             <label for="schoolName" class="form-label">School Name</label>

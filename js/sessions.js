@@ -1,4 +1,6 @@
-
+if (is_manager){
+  window.location.href = "index.html";
+}
 
 
 async function fetchSessions() {
@@ -9,7 +11,7 @@ async function fetchSessions() {
       }
     });
 
-    if (response.status === 401) {
+    if (response.status === 401 || response.status === 403) {
         window.location.href = 'auth.html';
         return;
     }
@@ -154,7 +156,7 @@ document.getElementById('addSessionForm').addEventListener('submit', async funct
     submitButton.disabled = false;
     submitSpinner.classList.add("d-none");
 
-    if (response.status === 401) {
+    if (response.status === 401 || response.status === 403) {
         window.location.href = 'auth.html';
         return;
     }
@@ -166,9 +168,12 @@ document.getElementById('addSessionForm').addEventListener('submit', async funct
       return;
     }
 
-    showAlert('success', '✅ ' + data.message );
-    fetchSessions(); // Refresh session list
-
+    if (data.checkout_url) {
+      window.location.href = data.checkout_url;  // 🚀 Redirect to Paystack
+    } else if (data.message) {
+      showAlert("success", `✅ ${data.message}`);
+    }
+    
     const modal = bootstrap.Modal.getInstance(document.getElementById('addSessionModal'));
     modal.hide();
     this.reset();

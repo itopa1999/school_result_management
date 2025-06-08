@@ -1,4 +1,6 @@
-
+if (is_manager){
+  window.location.href = "index.html";
+}
 
 async function fetchData() {
   try {
@@ -8,7 +10,7 @@ async function fetchData() {
       }
     });
 
-    if (response.status === 401) {
+    if (response.status === 401 || response.status === 403) {
         window.location.href = 'auth.html';
         return;
     }

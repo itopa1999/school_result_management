@@ -1,4 +1,6 @@
-
+if (is_manager){
+  window.location.href = "index.html";
+}
 
 async function fetchSubjects() {
     try {
@@ -10,7 +12,7 @@ async function fetchSubjects() {
             }
         })
 
-        if (response.status === 401) {
+        if (response.status === 401 || response.status === 403) {
             window.location.href = 'auth.html';
             return;
         }
@@ -189,7 +191,7 @@ async function fetchGradings() {
         'Content-Type': 'application/json'
       }
     });
-    if (response.status === 401) {
+    if (response.status === 401 || response.status === 403) {
         window.location.href = 'auth.html';
         return;
     }
@@ -277,7 +279,7 @@ async function updateGrading(id, item) {
     submitButton3.disabled = false;
     submitSpinner3.classList.add("d-none");
 
-    if (response.status === 401) {
+    if (response.status === 401 || response.status === 403) {
         window.location.href = 'auth.html';
         return;
     }
@@ -382,7 +384,7 @@ async function fetchSchoolInfo() {
             }
         })
 
-        if (response.status === 401) {
+        if (response.status === 401 || response.status === 403) {
             window.location.href = 'auth.html';
             return;
         }
@@ -433,7 +435,7 @@ document.getElementById('schoolProfileForm').addEventListener('submit', async fu
         submitButton4.disabled = false;
         submitSpinner4.classList.add("d-none");
 
-        if (response.status === 401) {
+        if (response.status === 401 || response.status === 403) {
             window.location.href = 'auth.html';
             return;
         }

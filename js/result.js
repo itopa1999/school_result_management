@@ -26,7 +26,7 @@ async function fetchData(url) {
       }
     });
 
-    if (response.status === 401) {
+    if (response.status === 401 || response.status === 403) {
       window.location.href = 'auth.html';
       return;
     }
@@ -53,51 +53,33 @@ async function fetchData(url) {
 }
 
 function renderStudents(data) {
+  console.log(data)
+  const tbody = document.querySelector('#studentsTable tbody');
+  tbody.innerHTML = '';
 
-  studentsContainer.innerHTML = '';
-
-  const card = document.createElement('div');
-  card.className = 'card shadow-sm rounded-4 p-4';
-
-  const table = document.createElement('table');
-  table.id = 'studentsTable';
-  table.className = 'table table-striped mb-0';
-
-  table.innerHTML = `
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Other Info</th>
-        <th>Class</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      ${data.results.map(student => `
-        <tr>
-          <td>${student.id}</td>
-          <td>${student.name}</td>
-          <td>${student.other_info || ''}</td>
-          <td>${student.class_name}</td>
-          <td class="text-center">
-            <button class="btn btn-sm btn-primary me-1" title="View Result" onclick="viewResult(${student.id})">
-              <i class="fas fa-eye"></i>
-            </button>
-            <button class="btn btn-sm btn-success me-1" title="Upload Result" onclick="uploadResult(${student.id}, '${student.name}')">
-              <i class="fas fa-upload"></i>
-            </button>
-            <button class="btn btn-sm btn-danger" title="Reset Result" onclick="resetResult(${student.id}, '${student.name}')">
-              <i class="fas fa-redo"></i>
-            </button>
-          </td>
-        </tr>
-      `).join('')}
-    </tbody>
+   data.results.forEach((student, index) => {
+  const row = document.createElement('tr');
+  row.innerHTML = `
+      <td>${student.id}</td>
+      <td>${student.name}</td>
+      <td>${student.other_info || ''}</td>
+      <td>${student.class_name}</td>
+      <td class="text-center">
+        <button class="btn btn-sm btn-primary me-1" title="View Result" onclick="viewResult(${student.id})">
+          <i class="fas fa-eye"></i>
+        </button>
+        <button class="btn btn-sm btn-success me-1" title="Upload Result" onclick="uploadResult(${student.id}, '${student.name}')">
+          <i class="fas fa-upload"></i>
+        </button>
+         ${!is_manager ? `
+          <button class="btn btn-sm btn-danger" title="Reset Result" onclick="resetResult(${student.id}, '${student.name}')">
+            <i class="fas fa-redo"></i>
+          </button>` : ''}
+      </td>
+    </tr>
   `;
-
-  card.appendChild(table);
-  studentsContainer.appendChild(card);
+  tbody.appendChild(row);
+  });
 
   nextPageUrl = data.next;
   prevPageUrl = data.previous;
@@ -105,6 +87,7 @@ function renderStudents(data) {
   nextBtn.disabled = !nextPageUrl;
   prevBtn.disabled = !prevPageUrl;
 }
+
 
 // Initial URL to fetch
 const initialUrl = `${ADMIN_BASE_URL}/students/`;

@@ -12,7 +12,7 @@ async function getAllClassLevels() {
       }
     });
 
-    if (response.status === 401) {
+    if (response.status === 401 || response.status === 403) {
         window.location.href = 'auth.html';
         return;
     }
@@ -225,7 +225,7 @@ document.getElementById('download-template').addEventListener('click', async  fu
     submitButton2.disabled = false;
     submitSpinner2.classList.add("d-none");
 
-    if (response.status === 401) {
+    if (response.status === 401 || response.status === 403) {
         window.location.href = 'auth.html';
         return;
     }
@@ -311,7 +311,7 @@ document.querySelector('#uploadStudentModal form').addEventListener('submit', as
     submitButton.disabled = false;
     submitSpinner.classList.add("d-none");
 
-    if (response.status === 401) {
+    if (response.status === 401 || response.status === 403) {
       window.location.href = 'auth.html';
       return;
     }

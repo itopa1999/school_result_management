@@ -54,6 +54,12 @@ const adminNav = `
         </a>
     </div>
     <div class="nav-item">
+        <a href="parents.html" class="nav-link ">
+            <i class="fas fa-users-cog"></i>
+            <span>Manage Parents</span>
+        </a>
+    </div>
+    <div class="nav-item">
         <a href="settings.html" class="nav-link ">
             <i class="fas fa-chart-bar"></i>
             <span>Settings</span>
@@ -78,12 +84,6 @@ const managerNav = `
         <a href="results.html" class="nav-link ">
             <i class="fas fa-chalkboard"></i>
             <span>Manage Results</span>
-        </a>
-    </div>
-    <div class="nav-item">
-        <a href="#" class="nav-link ">
-            <i class="fas fa-credit-card"></i>
-            <span>Subscription</span>
         </a>
     </div>
 `;
@@ -246,7 +246,7 @@ function showChangePasswordModal() {
             changePasswordButton.disabled = false;
             changePasswordSpinner.classList.add("d-none");
 
-            if (response.status === 401) {
+            if (response.status === 401 || response.status === 403) {
                 showAlert("error",'❌ Authorized request');
                 RemoveAccessFromLocalStorage()
                 setTimeout(() => {

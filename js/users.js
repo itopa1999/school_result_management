@@ -1,4 +1,6 @@
-
+if (is_manager){
+  window.location.href = "index.html";
+}
 
 document.addEventListener("DOMContentLoaded", function () {
 
@@ -13,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             })
     
-            if (response.status === 401) {
+            if (response.status === 401 || response.status === 403) {
                 window.location.href = 'auth.html';
                 return;
             }

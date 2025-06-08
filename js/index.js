@@ -12,7 +12,7 @@
             }
         })
 
-        if (response.status === 401) {
+        if (response.status === 401 || response.status === 403) {
             window.location.href = 'auth.html';
             return;
         }
@@ -89,8 +89,8 @@ function renderSubscriptionCard(subscription) {
 
       <div class="subscription-details">
         <div class="d-flex flex-wrap justify-content-between">
-          <div>
-            <p class="mb-1"><strong>Expiration:</strong> ${expiresOn}</p>
+          <div class="text-secondary">
+            <p class="mb-1 "><strong>Expiration:</strong> ${expiresOn}</p>
             <p class="mb-0"><strong>Paid On:</strong> ${paidOn}</p>
           </div>
         </div>
