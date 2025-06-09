@@ -84,6 +84,7 @@ function displayLevels(levels) {
   }
 
 function populateStudentsTable(students) {
+  console.log(students)
   const tbody = document.querySelector('#studentsTable tbody');
   tbody.innerHTML = '';
 
@@ -91,14 +92,14 @@ function populateStudentsTable(students) {
     const row = document.createElement('tr');
     row.innerHTML = `
       <td>${index + 1}</td>
-      <td>${student.name}</td>
-      <td>${student.other_info}</td>
+      <td>${student.student.name}</td>
+      <td>${student.student.other_info}</td>
       <td>
-        <button class="btn btn-sm btn-primary me-1" onclick="openEditStudentModal(${student.id})">
+        <button class="btn btn-sm btn-primary me-1" onclick="openEditStudentModal(${student.student.id})">
           <i class="fas fa-edit me-1"></i> Edit
         </button>
       
-        <button class="btn btn-sm btn-dark" onclick="previewStudentResult(${student.id})">
+        <button class="btn btn-sm btn-dark" onclick="previewStudentResult(${student.student.id})">
           <i class="fas fa-eye me-1"></i> Preview
         </button>
       </td>

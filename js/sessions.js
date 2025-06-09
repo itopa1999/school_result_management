@@ -172,6 +172,7 @@ document.getElementById('addSessionForm').addEventListener('submit', async funct
       window.location.href = data.checkout_url;  // 🚀 Redirect to Paystack
     } else if (data.message) {
       showAlert("success", `✅ ${data.message}`);
+      fetchSessions()
     }
     
     const modal = bootstrap.Modal.getInstance(document.getElementById('addSessionModal'));

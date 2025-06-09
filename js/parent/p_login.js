@@ -34,10 +34,14 @@ document.querySelector(".login-form").addEventListener("submit", async function 
             showAlert('error','❌ '+ data.error || "❌ Something went wrong! Please try again.");
             return;
         }
-        localStorage.setItem("p_token", data.access);
-        localStorage.setItem("p_name", data._name);
+
+        console.log(data)
+        localStorage.setItem("p_token", data.access_code);
+        localStorage.setItem("p_name", data.parent_name);
+        localStorage.setItem("p_school_name", data.school_name);
+        localStorage.setItem("p_school_location", data.school_address);
         document.querySelector(".login-form").reset();
-        window.location.href = "p_index.html";
+        window.location.href = "index.html";
         
 
 

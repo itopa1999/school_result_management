@@ -1,16 +1,11 @@
-
-
 const ADMIN_BASE_URL = "http://127.0.0.1:8000/admins/api";
-const MANAGER_BASE_URL = "http://127.0.0.1:8000/backend/api";
 
 
 // FETCH USER DETAILS
-const profilePicture = localStorage.getItem('constant_profilePicture');
-const token = localStorage.getItem('constant_token');
-const is_admin = localStorage.getItem('constant_is_admin') === 'true';
-const is_manager = localStorage.getItem('constant_is_manager') === 'true';
-const school_name = localStorage.getItem('constant_school_name');
-const school_location = localStorage.getItem('constant_school_location');
+const token = localStorage.getItem('p_token');
+const parent_name = localStorage.getItem('p_name');
+const school_name = localStorage.getItem('p_school_name');
+const school_location = localStorage.getItem('p_school_location');
 
 document.getElementById("schoolNameDisplay").innerHTML = school_name;
 
@@ -24,92 +19,28 @@ const adminNav = `
         </a>
     </div>
     <div class="nav-item">
-        <a href="session-lists.html" class="nav-link ">
-            <i class="fas fa-users-cog "></i>
-            <span>Manage Sessions</span>
-        </a>
-    </div>
-    <div class="nav-item">
-        <a href="class-lists.html" class="nav-link ">
-            <i class="fas fa-chalkboard"></i>
-            <span>Classes</span>
-        </a>
-    </div>
-    <div class="nav-item">
         <a href="results.html" class="nav-link ">
-            <i class="fa fa-file-text"></i>
+            <i class="fa fa-file-text "></i>
             <span>Manage Results</span>
         </a>
     </div>
     <div class="nav-item">
-        <a href="subscription.html" class="nav-link ">
-            <i class="fas fa-credit-card"></i>
-            <span>Subscription</span>
-        </a>
-    </div>
-    <div class="nav-item">
-        <a href="users.html" class="nav-link ">
-            <i class="fas fa-users-cog"></i>
-            <span>Manage Users</span>
-        </a>
-    </div>
-    <div class="nav-item">
-        <a href="parents.html" class="nav-link ">
-            <i class="fas fa-users-cog"></i>
-            <span>Manage Parents</span>
-        </a>
-    </div>
-    <div class="nav-item">
-        <a href="settings.html" class="nav-link ">
-            <i class="fas fa-chart-bar"></i>
-            <span>Settings</span>
-        </a>
-    </div>
-`;
-
-const managerNav = `
- <div class="nav-item">
-        <a href="index.html" class="nav-link active ">
-            <i class="fas fa-tachometer-alt"></i>
-            <span>Dashboard</span>
-        </a>
-    </div>
-    <div class="nav-item">
-        <a href="class-lists.html" class="nav-link ">
+        <a href="fees.html" class="nav-link ">
             <i class="fas fa-chalkboard"></i>
-            <span>Classes</span>
-        </a>
-    </div>
-    <div class="nav-item">
-        <a href="results.html" class="nav-link ">
-            <i class="fa fa-file-text"></i>
-            <span>Manage Results</span>
+            <span>Manage School fees</span>
         </a>
     </div>
 `;
 
-if (is_admin) {
-  navContainer.innerHTML = adminNav;
-} else if (is_manager) {
-  navContainer.innerHTML = managerNav;
-} else {
-    //   window.location.href = "login.html";
-    navContainer.innerHTML = adminNav;
-}
+navContainer.innerHTML = adminNav;
 
-
-if (profilePicture) {
-    document.getElementById('profilePic').src = profilePicture;
-}else{
-    document.getElementById('profilePic').src = "/img/l8.jpeg";
-}
-
+document.getElementById('profilePic').src = "/img/parent_icon.png";
 
 document.getElementById('logoutUser').addEventListener('click', function() {
     RemoveAccessFromLocalStorage()
     showAlert("success","✅ Logout successful! ")
     setTimeout(() => {
-        window.location.href = "auth.html";
+        window.location.href = "login.html";
     }, 2000);
 });
 
@@ -285,25 +216,12 @@ document.getElementById("ChangePassword").addEventListener("click", showChangePa
 
 
 function RemoveAccessFromLocalStorage(){
-    localStorage.removeItem("constant_token");
-    localStorage.removeItem("constant_profilePicture");
-    localStorage.removeItem("constant_user_id");
-    localStorage.removeItem('constant_school_name');
-    localStorage.removeItem('constant_school_location');
-    localStorage.removeItem("constant_is_admin");
-    localStorage.removeItem("constant_is_manager");
+    localStorage.removeItem('p_token');
+    localStorage.removeItem('p_name');
+    localStorage.removeItem('p_school_name');
+    localStorage.removeItem('p_school_location');
 }
 
-function restrictPageAccess(options) {
-    if (options.onlyAdmin && is_admin == false) {
-        window.location.href = options.redirectTo || "index.html";
-    }else if(options.onlyManager && is_manager == false) {
-        window.location.href = options.redirectTo || "index.html";
-    }
-    else{
-        window.location.href = options.redirectTo || "auth.html";
-    }
-}
 
 
 // Toggle sidebar on mobile
@@ -364,13 +282,7 @@ function updateDateTime() {
         greeting = 'Good Evening 🌙';
     }
     
-    if (is_admin) {
-    document.getElementById('timeGreeting').textContent = greeting + ', Admin!';
-    } else if (is_manager) {
-    document.getElementById('timeGreeting').textContent = greeting + ', Manager!';
-    } else {
-    document.getElementById('timeGreeting').textContent = greeting + ', Anonymous!';
-    }
+    document.getElementById('timeGreeting').textContent = greeting + " " + parent_name;
 }
 
 // Initialize

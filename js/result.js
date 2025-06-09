@@ -60,19 +60,19 @@ function renderStudents(data) {
    data.results.forEach((student, index) => {
   const row = document.createElement('tr');
   row.innerHTML = `
-      <td>${student.id}</td>
-      <td>${student.name}</td>
-      <td>${student.other_info || ''}</td>
-      <td>${student.class_name}</td>
+      <td>${student.student.id}</td>
+      <td>${student.student.name}</td>
+      <td>${student.student.other_info || ''}</td>
+      <td>${student.class_level}</td>
       <td class="text-center">
-        <button class="btn btn-sm btn-primary me-1" title="View Result" onclick="viewResult(${student.id})">
+        <button class="btn btn-sm btn-primary me-1" title="View Result" onclick="viewResult(${student.student.id})">
           <i class="fas fa-eye"></i>
         </button>
-        <button class="btn btn-sm btn-success me-1" title="Upload Result" onclick="uploadResult(${student.id}, '${student.name}')">
+        <button class="btn btn-sm btn-success me-1" title="Upload Result" onclick="uploadResult(${student.student.id}, '${student.student.name}')">
           <i class="fas fa-upload"></i>
         </button>
          ${!is_manager ? `
-          <button class="btn btn-sm btn-danger" title="Reset Result" onclick="resetResult(${student.id}, '${student.name}')">
+          <button class="btn btn-sm btn-danger" title="Reset Result" onclick="resetResult(${student.student.id}, '${student.student.name}')">
             <i class="fas fa-redo"></i>
           </button>` : ''}
       </td>

@@ -46,8 +46,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     const students = data.results || data;  // Supports both paginated and non-paginated APIs
 
     const options = students.map(student => ({
-      value: student.id,
-      label: student.name + ' ' + student.class_name
+      value: student.student.id,
+      label: student.student.name + ' ' + student.class_level
     }));
 
     studentChoices.setChoices(options, 'value', 'label', true);
@@ -157,12 +157,13 @@ async function fetchAndRenderParents(url, direction = null) {
     const data = await response.json();
     const parents = data.results || data;
 
+    console.log(data)
+
     const tbody = document.querySelector('#parentsTable tbody');
     tbody.innerHTML = '';
 
     parents.forEach(parent => {
       const studentNames = parent.students.map(s => s.name).join(', ');
-      const classLevels = parent.students.map(s => s.class_level).join(', ');
       const studentIds = JSON.stringify(parent.students.map(s => s.id));
 
       const row = document.createElement('tr');
@@ -171,7 +172,6 @@ async function fetchAndRenderParents(url, direction = null) {
         <td>${parent.name}</td>
         <td>${parent.email}</td>
         <td>${studentNames}</td>
-        <td>${classLevels}</td>
         <td>
         <span class="badge ${parent.is_active ? 'bg-success' : 'bg-danger'}">
           ${parent.is_active ? 'Active' : 'Inactive'}
