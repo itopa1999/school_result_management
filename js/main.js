@@ -3,7 +3,7 @@
 const ADMIN_BASE_URL = "https://luck1999.pythonanywhere.com/admins/api";
 const MANAGER_BASE_URL = "https://luck1999.pythonanywhere.com/backend/api";
 
-
+ 
 // FETCH USER DETAILS
 const profilePicture = localStorage.getItem('constant_profilePicture');
 const token = localStorage.getItem('constant_token');
