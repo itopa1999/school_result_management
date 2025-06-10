@@ -60,4 +60,4 @@ function closeAlert() {
     document.getElementById("customAlert").classList.remove("active");
 }
 
-const BASE_URL = "http://127.0.0.1:8000/auth/api";
+const BASE_URL = "https://luck1999.pythonanywhere.com/auth/api";

@@ -1,4 +1,4 @@
-const ADMIN_BASE_URL = "http://127.0.0.1:8000/admins/api";
+const ADMIN_BASE_URL = "https://luck1999.pythonanywhere.com/admins/api";
 
 
 // FETCH USER DETAILS
@@ -162,11 +162,11 @@ function showChangePasswordModal() {
 
         try {
             
-            const response = await fetch("http://127.0.0.1:8000/auth/api/user/change/password/", {
+            const response = await fetch(`${ADMIN_BASE_URL}/parent/change/password/`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    'Authorization': `Bearer ${token}`,
+                    'Authorization': `${token}`,
                 },
                 body: JSON.stringify(Object.fromEntries(formData.entries()))
             });
