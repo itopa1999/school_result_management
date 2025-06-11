@@ -166,7 +166,7 @@ function showChangePasswordModal() {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    'Authorization': `${token}`,
+                    'X-Parent-Code': `${token}`,
                 },
                 body: JSON.stringify(Object.fromEntries(formData.entries()))
             });
@@ -181,7 +181,7 @@ function showChangePasswordModal() {
                 showAlert("error",'❌ Authorized request');
                 RemoveAccessFromLocalStorage()
                 setTimeout(() => {
-                    window.location.href = "auth.html";
+                    window.location.href = "login.html";
                 }, 3000);
         return;
             }

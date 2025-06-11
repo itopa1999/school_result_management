@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" href="/img/icon.jpg" type="image/jpg" />
+    <link rel="stylesheet" href="/css/index.css">
+    <style>
+        .selection-modal .modal-content {
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            border: none;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .selection-modal .modal-content:hover {
+            box-shadow: var(--hover-shadow);
+        }
+
+        .selection-modal .modal-header {
+            background-color: var(--primary);
+            color: var(--white);
+            border-bottom: none;
+            padding: 20px 25px;
+        }
+
+        .selection-modal .modal-title {
+            font-weight: 600;
+        }
+
+        .selection-modal .modal-body {
+            padding: 25px;
+            background-color: var(--white);
+        }
+
+        .selection-modal .form-label {
+            font-weight: 500;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .selection-modal .form-select {
+            border-radius: var(--border-radius);
+            padding: 12px 15px;
+            border: 1px solid var(--gray-light);
+            transition: var(--transition);
+            background-color: var(--white);
+        }
+
+        .selection-modal .form-select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.25rem rgba(46, 204, 113, 0.25);
+        }
+
+        .selection-modal .modal-footer {
+            border-top: none;
+            padding: 20px 25px;
+            background-color: var(--primary-light);
+        }
+
+        .selection-modal .btn-primary {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            padding: 10px 20px;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .selection-modal .btn-primary:hover {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .selection-modal .btn-outline-secondary {
+            padding: 10px 20px;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .selection-modal .btn-outline-secondary:hover {
+            transform: translateY(-2px);
+        }
+
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 300px;
+            text-align: center;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            margin-top: 30px;
+            transition: var(--transition);
+        }
+
+        .empty-state:hover {
+            box-shadow: var(--hover-shadow);
+        }
+
+        .empty-state .fa-clipboard-list {
+            font-size: 60px;
+            color: var(--primary);
+            margin-bottom: 20px;
+            margin-top: 10px;
+            transition: var(--transition);
+        }
+
+        .empty-state:hover i {
+            transform: scale(1.1);
+        }
+
+        .empty-state h4 {
+            color: var(--text-dark);
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .empty-state p {
+            color: var(--text-light);
+            margin-bottom: 20px;
+            max-width: 500px;
+        }
+
+
+        .result-card {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: none;
+            margin-top: 30px;
+        }
+
+        .result-card:hover {
+            box-shadow: var(--hover-shadow);
+        }
+
+        .result-card .card-header {
+            background-color: var(--primary);
+            color: var(--white);
+            border-bottom: none;
+            border-radius: var(--border-radius) var(--border-radius) 0 0 !important;
+            padding: 15px 20px;
+            font-weight: 600;
+        }
+
+        .alert-success {
+            background-color: var(--accent-green);
+            border-color: var(--primary-light);
+            color: var(--text-dark);
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Overlay for Mobile -->
+        <div class="overlay"></div>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="and-icn">
+                    <img src="/img/icon.jpg" class="brand-icon">
+                </div>
+                <div class="brand"><i class="fa-solid fa-star"></i> software</div>
+                <div class="school-name" id="schoolNameDisplay"></div>
+            </div>
+            
+            <div class="greeting">
+                <h5 id="timeGreeting"></h5>
+                <small class="text-mute" id="currentDate"></small>
+            </div>
+            
+            <div class="nav-links" id="navContainer">
+                
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <button class="menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+
+                <div class="header-right">
+                    <div class="user-dropdown">
+                        <button class="user-btn">
+                            <img src="" id="profilePic" class="user-avatar"></img>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+
+                        <div class="dropdown-menu">
+                            <a href="#" class="dropdown-item">
+                                <i class="fas fa-bell"></i>
+                                <span>Notifications</span>
+                            </a>
+                            <a href="#" id="ChangePassword" class="dropdown-item">
+                                <i class="fas fa-lock"></i>
+                                <span>Change Password</span>
+                            </a>
+                            <a href="#" class="dropdown-item">
+                                <i class="fas fa-moon"></i>
+                                <span>Dark Mode</span>
+                                <div class="dark-mode-toggle" id="darkModeToggle">
+                                    <div class="toggle-circle"></div>
+                                </div>
+                            </a>
+                            <a href="#" id="logoutUser" class="dropdown-item">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Logout</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Page Content -->
+            <div class="page-content">
+
+                <div class="empty-state" id="emptyState">
+                    <i class="fas fa-clipboard-list"></i>
+                    <h4>No Selection Made</h4>
+                    <p>Please open the selection modal and choose the session, term, and student to view the results.</p>
+                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#selectionModal">
+                        <i class="fas fa-sliders-h me-2"></i>Open Selection Modal
+                    </button>
+                </div>
+
+                <!-- Content that will show when selections are made -->
+                <div id="resultContent" style="display: none;">
+                    <!-- Result content will be loaded here -->
+                </div>
+            </div>
+
+
+            <footer class="footer">
+                <div class="container">
+                    <span>&copy; 2023 School Management System | All rights reserved</span>
+                </div>
+            </footer>
+
+    </div>
+
+    <div class="custom-alert" id="customAlert">
+        <div class="alert-progress" id="alertProgress"></div>
+        <span class="alert-content" id="alertContent"></span>
+    </div>
+
+     <div class="modal fade selection-modal" id="selectionModal" tabindex="-1" aria-labelledby="selectionModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="selectionModalLabel">
+                        <i class="fas fa-sliders-h me-2"></i>Select Options
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="selectionForm">
+                        <div class="mb-4">
+                            <label for="sessionSelect" class="form-label">Select Session</label>
+                            <select class="form-select" id="sessionSelect" required>
+                                <option value="" selected disabled>Choose session</option>
+                                <option value="2022/2023">2022/2023</option>
+                                <option value="2023/2024">2023/2024</option>
+                                <option value="2024/2025">2024/2025</option>
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label for="termSelect" class="form-label">Select Term</label>
+                            <select class="form-select" id="termSelect" required>
+                                <option value="" selected disabled>Choose term</option>
+                                <option value="1">First Term</option>
+                                <option value="2">Second Term</option>
+                                <option value="3">Third Term</option>
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label for="studentSelect" class="form-label">Select Student</label>
+                            <select class="form-select" id="studentSelect" required>
+                                <option value="" selected disabled>Choose student</option>
+                                <option value="1">John Doe (JSS1A)</option>
+                                <option value="2">Jane Smith (JSS2B)</option>
+                                <option value="3">Michael Johnson (SSS3A)</option>
+                                <option value="4">Sarah Williams (JSS1B)</option>
+                                <option value="5">David Brown (SSS2A)</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="submitSelection">View Results</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="/js/parent/main.js"></script>
+    <script src="/js/parent/result.js"></script>
+    <script>
+    </script>
+</body>
+</html>
