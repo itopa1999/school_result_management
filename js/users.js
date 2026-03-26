@@ -1,4 +1,4 @@
-if (is_manager){
+if (!is_admin){
   window.location.href = "index.html";
 }
 

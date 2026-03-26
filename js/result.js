@@ -1,3 +1,8 @@
+if (!is_admin && !is_admin) {
+  window.location.href = "auth.html";
+}
+
+
 const studentsContainer = document.getElementById('studentsContainer');
 const prevBtn = document.getElementById('prevBtn');
 const nextBtn = document.getElementById('nextBtn');
@@ -134,6 +139,20 @@ async function viewResult(studentId) {
       <div class="result-info-item"><span class="result-info-label">Term:</span> ${result.academic_sessions.term}</div>
     `;
 
+    const formattedDate = result.academic_sessions.resumptionDate
+    ? new Date(result.academic_sessions.resumptionDate).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      })
+    : 'Not Set';
+
+   document.querySelector('.next-resumption-date').innerHTML =`
+    <div class="result-info-item" style="text-align: center; margin-top: 20px;">
+      <span class="result-info-label">Next Term Begins:</span> ${formattedDate}
+    </div>
+  `;
+
     // === Fill Result Table ===
     const tbody = document.querySelector('.result-table tbody');
     tbody.innerHTML = ''; // Clear existing rows
@@ -192,6 +211,7 @@ async function uploadResult(studentId, studentName) {
   const modalTitle = document.getElementById('uploadStudentModalLabel');
   modalTitle.textContent = `Upload result for: ${studentName}`;
   document.getElementById('uploadStudentId').value = studentId;
+  document.getElementById('uploadStudentName').value = studentName;
   try {
     const response = await fetch(`${ADMIN_BASE_URL}/get/comments/${studentId}/`, {
       method: 'GET',
@@ -430,6 +450,7 @@ document.getElementById('confirmUploadBtn').addEventListener('click', async func
     submitSpinner.classList.remove("d-none");
 
     studentId = document.getElementById('uploadStudentId').value
+    studentName = document.getElementById('uploadStudentName').value
 
     const url = `${ADMIN_BASE_URL}/result/export/${studentId}/`;
 
@@ -437,7 +458,7 @@ document.getElementById('confirmUploadBtn').addEventListener('click', async func
       const response = await fetch(url, {
         method: 'GET',
         headers: {
-          'Authorization': `Bearer ${token}` // Replace `token` with your auth token
+          'Authorization': `Bearer ${token}`
         }
       });
 
@@ -453,7 +474,7 @@ document.getElementById('confirmUploadBtn').addEventListener('click', async func
       const blob = await response.blob();
       const fileName = response.headers.get('Content-Disposition')
         ?.split('filename=')[1]
-        ?.replace(/"/g, '') || 'student_result.xlsx';
+        ?.replace(/"/g, '') || studentName +'_result_template.xlsx';
 
       // Trigger download
       const link = document.createElement('a');

@@ -1,4 +1,6 @@
-
+if (!is_admin && !is_admin) {
+  window.location.href = "auth.html";
+}
 let currentStudents = [];
 let currentSortOrder = 'asc';
 let currentPage = 1;
@@ -245,7 +247,7 @@ document.getElementById('download-template').addEventListener('click', async  fu
 
     // Optionally get filename from response headers, or hardcode
     const disposition = response.headers.get('Content-Disposition');
-    let filename = 'upload_students_template.xlsx'; // fallback filename
+    let filename = 'students_template.xlsx';
 
     if (disposition && disposition.indexOf('attachment') !== -1) {
       const filenameMatch = disposition.match(/filename="(.+)"/);

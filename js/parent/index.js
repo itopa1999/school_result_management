@@ -3,7 +3,6 @@
 //   });
 
 
-console.log('Fetching from:', `${ADMIN_BASE_URL}/parent/dashboard/`);
   async function fetchData() {
     try {
         const response = await fetch(`${ADMIN_BASE_URL}/parent/dashboard/`, {
@@ -28,6 +27,7 @@ console.log('Fetching from:', `${ADMIN_BASE_URL}/parent/dashboard/`);
         displayData(data);
     } catch (error) {
         console.log('error','❌ Error fetching dashboard info:', error);
+        showAlert('error', '❌ Failed to fetch dashboard info:');
     }
 }
 

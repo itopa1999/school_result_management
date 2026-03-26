@@ -1,4 +1,4 @@
-if (is_manager){
+if (!is_admin){
   window.location.href = "index.html";
 }
 
@@ -26,6 +26,7 @@ async function fetchSessions() {
     renderSessions(data);
   } catch (error) {
     console.error('error', '❌ Error fetching sessions:', error);
+    showAlert('error', `❌ Error fetching sessions data: ${error.message}`);
   }
 }
 function renderSessions(sessions) {
@@ -56,6 +57,14 @@ function renderSessions(sessions) {
       `;
     });
 
+    const formattedDate = session.next_term_date
+    ? new Date(session.next_term_date).toLocaleDateString('en-GB', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric'
+      })
+    : 'Not Set';
+
     const cardHTML = `
       <div class="col-md-6 col-lg-4 mb-4">
         <div class="card border-0 shadow-lg h-100 rounded-4">
@@ -70,12 +79,28 @@ function renderSessions(sessions) {
                 </span>
               </div>
               <div class="form-check form-switch mt-1">
-                <input class="form-check-input session-toggle" type="checkbox" ${session.is_current ? 'checked' : ''} 
+                <input class="form-check-input session-toggle" type="checkbox"
+                  ${session.is_current ? 'checked' : ''}
                   data-session-id="${session.id}">
               </div>
             </div>
+
             <h6 class="fw-semibold text-muted mb-2">Terms</h6>
             ${termsHTML}
+
+            <hr class="my-3" />
+
+            <div class="mb-3">
+              <label class="form-label fw-semibold text-muted">📅 Next Term Resumption:</label>
+              <div class="text-dark">${formattedDate}</div>
+            </div>
+
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox"
+                ${session.show ? 'checked' : ''}
+                disabled>
+              <label class="form-check-label">Show Result</label>
+            </div>
           </div>
         </div>
       </div>

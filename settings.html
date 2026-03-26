@@ -121,7 +121,39 @@
                 display: none;
             }
         }
-    </style>
+  .session-card {
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    color: #fff;
+  }
+
+  .session-card h5 {
+    font-weight: bold;
+  }
+
+  .no-sessions {
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 1.2rem;
+    color: #888;
+  }
+  .grading-card {
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    color: #333;
+  }
+
+  .no-gradings {
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 1.2rem;
+    color: #888;
+  }
+</style>
 
 </head>
 <body>
@@ -195,19 +227,31 @@
       <li class="nav-item" role="presentation">
         <button class="nav-link text-secondary" id="subject-tab" data-bs-toggle="tab" data-bs-target="#subject"
           type="button" role="tab" aria-controls="subject" aria-selected="true">
-          <i class="fas fa-book"></i> Subject
+          <i class="fas fa-book"></i> Subjects
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link text-secondary" id="levy-tab" data-bs-toggle="tab" data-bs-target="#levy"
+          type="button" role="tab" aria-controls="levy" aria-selected="true">
+          💳 Levies
         </button>
       </li>
       <li class="nav-item" role="presentation">
         <button class="nav-link text-secondary" id="grading-tab" data-bs-toggle="tab" data-bs-target="#grading"
           type="button" role="tab" aria-controls="grading" aria-selected="false">
-          <i class="fas fa-chart-line"></i> Grading
+          <i class="fas fa-chart-line"></i> Gradings
         </button>
       </li>
       <li class="nav-item" role="presentation">
         <button class="nav-link text-secondary" id="school-tab" data-bs-toggle="tab" data-bs-target="#school"
           type="button" role="tab" aria-controls="school" aria-selected="false">
           <i class="fas fa-school"></i> School Profile
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link text-secondary" id="sessions-tab" data-bs-toggle="tab" data-bs-target="#sessions"
+          type="button" role="tab" aria-controls="sessions" aria-selected="false">
+          📘 Sessions
         </button>
       </li>
     </ul>
@@ -220,6 +264,14 @@
         <button class="btn btn-secondary m-3 btn-sm" data-bs-toggle="modal" data-bs-target="#addSubjectModal">
           <i class="fas fa-plus"></i> Add Subject</button>
         <div class="list-group mb-3" id="subject-list"></div>
+      </div>
+
+      <div class="tab-pane fade active" id="levy" role="tabpanel" aria-labelledby="levy-tab">
+        <h5 class="text-secondary">Levy</h5>
+        <p>Display Levies metrics</p>
+        <button class="btn btn-secondary m-3 btn-sm" data-bs-toggle="modal" data-bs-target="#addLevyModal">
+          <i class="fas fa-plus"></i> Add Levy</button>
+        <div class="list-group mb-3" id="levies-list"></div>
       </div>
 
       <div class="tab-pane fade" id="grading" role="tabpanel" aria-labelledby="grading-tab">
@@ -236,7 +288,7 @@
         <form id="schoolProfileForm">
           <div class="mb-3">
             <label for="schoolName" class="form-label">School Name</label>
-            <input type="text" class="form-control" id="schoolName" name="school_name" required>
+            <input type="text" class="form-control" id="schoolName" name="school_name" disabled>
           </div>
 
           <div class="mb-3">
@@ -252,6 +304,16 @@
           </div>
         </form>
       </div>
+
+      <div class="tab-pane fade" id="sessions" role="tabpanel" aria-labelledby="sessions-tab">
+        <h5 class="text-secondary">Sessions</h5>
+        <p>Display session metrics</p>
+        <div id="sessionsList" class="list-group mb-3"></div>
+        
+      </div>
+
+
+
     </div>
   </div>
 </div>
@@ -276,6 +338,27 @@
             <div class="modal-footer">
             <button type="submit" id="submitBtn" class="btn btn-green"><i class="fas fa-plus"></i> Add 
                 <span class="spinner-border spinner-border-sm d-none" id="submitSpinner" role="status" aria-hidden="true"></span>
+            </button>
+            </div>
+        </form>
+        </div>
+    </div>
+    </div>
+
+    <div class="modal fade" id="addLevyModal" tabindex="-1" aria-labelledby="addLevyModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <form id="addLevyForm">
+            <div class="modal-header">
+            <h5 class="modal-title" id="addLevyModalLabel">Add Levy</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+            <input type="text" class="form-control" name="name" placeholder="Levy name" required>
+            </div>
+            <div class="modal-footer">
+            <button type="submit" id="submitBtn5" class="btn btn-green"><i class="fas fa-plus"></i> Add 
+                <span class="spinner-border spinner-border-sm d-none" id="submitSpinner5" role="status" aria-hidden="true"></span>
             </button>
             </div>
         </form>

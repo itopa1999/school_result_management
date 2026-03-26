@@ -1,4 +1,4 @@
-if (is_manager) {
+if (!is_admin) {
   window.location.href = "index.html";
 }
 
@@ -101,7 +101,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         return;
       }
 
-      await response.json();
+      data = await response.json();
       showAlert('success', `✅ Parent added successfully.`);
       fetchAndRenderParents();
       form.reset();

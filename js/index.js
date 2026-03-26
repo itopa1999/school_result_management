@@ -1,6 +1,6 @@
-// restrictPageAccess({
-//     onlyAdmin: true,
-//   });
+if (!is_admin && !is_admin) {
+  window.location.href = "auth.html";
+}
 
   async function fetchData() {
     try {

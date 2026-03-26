@@ -1,7 +1,7 @@
 
 
-const ADMIN_BASE_URL = "https://luck1999.pythonanywhere.com/admins/api";
-const MANAGER_BASE_URL = "https://luck1999.pythonanywhere.com/backend/api";
+const ADMIN_BASE_URL = "http://127.0.0.1:8000/admins/api";
+const MANAGER_BASE_URL = "http://127.0.0.1:8000/backend/api";
 
  
 // FETCH USER DETAILS
@@ -39,6 +39,12 @@ const adminNav = `
         <a href="results.html" class="nav-link ">
             <i class="fa fa-file-text"></i>
             <span>Manage Results</span>
+        </a>
+    </div>
+    <div class="nav-item">
+        <a href="fees.html" class="nav-link ">
+            <i class="fa fa-file-text"></i>
+            <span>Manage Fees</span>
         </a>
     </div>
     <div class="nav-item">
@@ -231,7 +237,7 @@ function showChangePasswordModal() {
 
         try {
             
-            const response = await fetch("https://luck1999.pythonanywhere.com/auth/api/user/change/password/", {
+            const response = await fetch("http://127.0.0.1:8000/auth/api/user/change/password/", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
